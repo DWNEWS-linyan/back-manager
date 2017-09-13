@@ -12,8 +12,6 @@ import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import org.springframework.stereotype.Component;
-
 /**
 * @ClassName: SendSMS
 * @Description: 
