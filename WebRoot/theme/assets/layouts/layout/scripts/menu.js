@@ -39,6 +39,7 @@ $.ajax({
 		outhMenu();
 	},
 	error: function(a,b,c){
+		window.location.href = ctx;
 		console.info(a);
 	}
 });
