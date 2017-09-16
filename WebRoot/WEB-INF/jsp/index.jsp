@@ -78,16 +78,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                  <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="请输入您的用户名" name="userName" /> </div>
              <div class="form-group">
                  <label class="control-label visible-ie8 visible-ie9">密码</label>
-                 <input class="form-control form-filter input-sm " type="password" placeholder="请输入您的密码" name="userPass" /> 
+                 <input class="form-control form-filter input-sm " type="password" autocomplete="off" placeholder="请输入您的密码" name="userPass" /> 
              </div>
              <div class="form-group">
 <!--                  <div class="col-md-4"> -->
 <!-- 				 	<img class="form-control form-filter input-sm " src="http://chuantu.biz/t5/137/1500198150x2088760331.png"> -->
-<!-- 				 </div> -->
+<!-- 				 </div> --> 
                  <div class="input-group" style="width:100%;">
-                 	<input class="form-control form-filter input-sm " type="number" placeholder="请输入您的密码" name="t" /> 
+                 	<input class="form-control form-filter input-sm verification-input-class" type="text" maxlength="4" autocomplete="off" placeholder="请输入您的密码" name="verification" /> 
                  	<span class="input-group-btn" style="width: 40%;">
-                 		<img style="padding:0px;margin:0px;" class=" bn form-control form-filter input-sm col-md-5" src="http://chuantu.biz/t5/137/1500198150x2088760331.png">
+                 		<img style="padding:0px;margin:0px;" class=" bn form-control form-filter input-sm col-md-5 verification-img-class" src="<%=basePath %>sys/login/yanZhengMa">
+                 	</span>
+                 	<span class="input-group-btn flagcheckclass" style="font-size: 22px;color:green;display: none;">
+                 		<i class="fa fa-check"></i>
                  	</span>
                  </div>
              </div>
@@ -115,7 +118,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                  <span class="form-subtitle">请输入您的手机号</span>
              </div>
              <div class="form-group">
-                 <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="请输入您的手机号" name="telPhone" /> </div>
+                 <input class="form-control placeholder-no-fix" type="tel" maxlength="11" autocomplete="off" placeholder="请输入您的手机号" name="telPhone" /> </div>
              <div class="form-actions">
                  <button type="button" id="back-btn" class="btn btn-default">返回</button>
                  <button type="submit" class="btn btn-primary uppercase pull-right">确定</button>
@@ -146,7 +149,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <script src="<%=basePath %>theme/assets/global/scripts/app.js?a=111" type="text/javascript"></script>
      <!-- END THEME GLOBAL SCRIPTS -->
      <!-- BEGIN PAGE LEVEL SCRIPTS -->
-     <script src="<%=basePath %>theme/assets/pages/scripts/login.js" type="text/javascript"></script>
+     <script src="<%=basePath %>theme/assets/pages/scripts/login.js?a=6" type="text/javascript"></script>
      <!-- END PAGE LEVEL SCRIPTS -->
      <!-- BEGIN THEME LAYOUT SCRIPTS -->
      <!-- END THEME LAYOUT SCRIPTS -->
