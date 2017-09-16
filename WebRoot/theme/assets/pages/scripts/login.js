@@ -65,6 +65,34 @@ var Login = function() {
                 return false;
             }
         });
+        
+        $(".verification-input-class").keyup(function(){
+        	var verification = $(this).val();
+        	if(verification!=''&&verification != null){
+        		$.ajax({
+    				url:App.domain()+"/sys/keyDown",
+    				data:{verification:verification},
+    				success: function(da){
+    					console.info(da.code);
+    					if(da.code==0){
+    						$(".flagcheckclass").show();
+    					}else{
+    						$(".flagcheckclass").hide();
+    					}
+    				},
+    				error: function(a,b,c){
+    					$(".flagcheckclass").hide();
+    					console.info(a+"出错了");
+    				}
+    			});
+        	}
+        });
+
+        $(".verification-img-class").on("click",function(){
+        	$(this).attr("src",App.domain()+"/sys/login/yanZhengMa?l="+Math.random());
+        });
+        
+        
     }
 
     var handleForgetPassword = function() {
