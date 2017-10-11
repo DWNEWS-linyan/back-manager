@@ -102,6 +102,7 @@ public class LyPagePlugin implements Interceptor {
                     //获取分页Sql语句
                     String pageSql = generatePageSql(sql,page);
                     //利用反射设置当前BoundSql对应的sql属性为我们建立好的分页Sql语句
+                    System.out.println(page.getEnd()+"===========================================================================");
                     if (page.getEnd()<=0) {
                     	ReflectHelper.setValueByFieldName(boundSql, "sql", sql); //将分页sql语句反射回BoundSql.
 					}else {
@@ -179,7 +180,9 @@ public class LyPagePlugin implements Interceptor {
         if(page!=null){
             StringBuffer pageSql = new StringBuffer();
             pageSql.append(sql);
-            pageSql.append(" limit "+page.getFirst()+","+page.getEnd());
+            int li = page.getEnd() - page.getFirst()+1;
+            System.out.println(li+"=============================================================================");
+            pageSql.append(" limit "+page.getFirst()+","+li);
             return pageSql.toString();
         }else{
             return sql;

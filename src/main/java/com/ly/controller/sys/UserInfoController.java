@@ -1,6 +1,7 @@
 package com.ly.controller.sys;
 
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -8,10 +9,15 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ly.service.sys.IUserInfoService;
+import com.ly.vo.AddOrEditUserInfoVo;
 
 /**
 * @ClassName: UserInfoController
@@ -23,10 +29,69 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class UserInfoController {
 
+	
+	@Autowired
+	private IUserInfoService userInfoService;
+	
 	@RequestMapping(value = "goUserInfo")
 	public String goUserInfo(){
 		return "userInfo/userList";
 	}
+	
+	@RequestMapping(value = "userInfo/userInfoTableAjax" ,produces = "application/json;charset=utf-8")
+	@ResponseBody
+	public Object userInfoTableAjax(HttpServletRequest request,HttpServletResponse response){
+		Integer userInfoId = ServletRequestUtils.getIntParameter(request, "userInfoId",0);
+		Integer userAge = ServletRequestUtils.getIntParameter(request, "userAge",0);
+		Integer userHight = ServletRequestUtils.getIntParameter(request, "userHight",0);
+		Integer userWeight = ServletRequestUtils.getIntParameter(request, "userWeight",0);
+		String userName = ServletRequestUtils.getStringParameter(request, "userName",null);
+		String userSex = ServletRequestUtils.getStringParameter(request,"userSex",null);
+		String userBirthday = ServletRequestUtils.getStringParameter(request,"userBirthday",null);
+		String userNations = ServletRequestUtils.getStringParameter(request,"userNations",null);
+		String userEducation = ServletRequestUtils.getStringParameter(request,"userEducation",null);
+		String draw = ServletRequestUtils.getStringParameter(request,"draw",null);
+		String orderDir = ServletRequestUtils.getStringParameter(request,"order[0][dir]",null);
+		Integer start = ServletRequestUtils.getIntParameter(request, "start",0);
+		Integer length = ServletRequestUtils.getIntParameter(request, "length",0);
+		Integer order = ServletRequestUtils.getIntParameter(request, "order[0][column]",0);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userInfoId",userInfoId);
+		map.put("userAge",userAge);
+		map.put("userHight",userHight);
+		map.put("userWeight",userWeight);
+		map.put("userName",userName);
+		map.put("userSex",userSex);
+		map.put("userBirthday",userBirthday);
+		map.put("userNations",userNations);
+		map.put("userEducation",userEducation);
+		map.put("draw",draw);
+		map.put("orderDir",orderDir);
+		map.put("start",start);
+		map.put("length",length);
+		map.put("order",order);
+		
+		map = userInfoService.userInfoTableAjax(map);
+		
+		return map;
+	}
+	
+	@RequestMapping(value = "addOrEditUserInfo" ,produces = "application/json;charset=utf8")
+	@ResponseBody
+	public Object addOrEditUserInfo(AddOrEditUserInfoVo userInfoVo,HttpServletRequest request,HttpServletResponse response){
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			map = userInfoService.addOrEditUserInfo(userInfoVo);
+			map.put("code", 0);
+		} catch (Exception e) {
+			map.put("code", 1);
+			map.put("mes", "出错了");
+			e.printStackTrace();
+		}
+		
+		return map;
+	}
+	
 	
 	@RequestMapping(value = "ceshiObject")
 	@ResponseBody

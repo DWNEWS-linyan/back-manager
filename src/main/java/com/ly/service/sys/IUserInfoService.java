@@ -1,5 +1,9 @@
 package com.ly.service.sys;
 
+import java.util.Map;
+
+import com.ly.vo.AddOrEditUserInfoVo;
+
 /**
 * @ClassName: IUserInfoService
 * @Description: 
@@ -8,5 +12,23 @@ package com.ly.service.sys;
 *
 */
 public interface IUserInfoService {
+
+	/**
+	 * @Title: userInfoTableAjax
+	 * @author: linyan
+	 * @Description: 
+	 * @param map
+	 * @return
+	*/
+	Map<String, Object> userInfoTableAjax(Map<String, Object> map);
+
+	/**
+	 * @Title: addOrEditUserInfo
+	 * @author: linyan
+	 * @Description: 
+	 * @param userInfoVo
+	 * @return
+	*/
+	Map<String, Object> addOrEditUserInfo(AddOrEditUserInfoVo userInfoVo);
 
 }

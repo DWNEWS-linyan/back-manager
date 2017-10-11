@@ -29,6 +29,20 @@
     from user_info
     where id = #{id,jdbcType=INTEGER}
   </select>
+  
+  <select id="userInfoTableAjaxPage"  parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_info
+    <where>
+    	<if test="userInfoId != null and userInfoId != ''">
+    		and id = ${userInfoId}
+    	</if>
+    	<if test="userName != null and userName != ''">
+    		and name = ${userName}
+    	</if>
+    </where>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user_info
     where id = #{id,jdbcType=INTEGER}
