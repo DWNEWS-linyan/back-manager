@@ -215,72 +215,26 @@ var FileUploadLy = function(){
 		upLoade :function(options){
 			defult = $.extend(defult, options);
 			upLoade(defult.id);
+		},
+		onprogress:function(a,b,c){
+			var loaded = a.loaded;     //已经上传大小情况 
+			var tot = a.total;      //附件总大小 
+			var per = Math.floor(100*loaded/tot);  //已经上传的百分比 
+			$("#irs-single").html(per +"%");
+			var siPer = 0;
+			if(per<10){
+				siPer = per+0.5;
+			}else{
+				siPer = per;
+			}
+			$("#irs-single").css({
+				"left":siPer +"%"
+			});
+			$("#irs-bar").css("width" , per +"%");
 		}
 	}
 }();
 
-	
-	 
 jQuery(document).ready(function() {
-	FileUploadLy.upLoade({"id":"upload"});
 	FileUploadLy.upLoade({"id":"uploasd"});
-//	$("#gjgj").on("click",function(){
-//		var ctx = "<%=basePath %>";
-//		
-//		var files = $("#upload")[0].files;
-//		for(var i = 0;i < files.length;i++){
-//			var formData = new FormData();
-//			formData.append("file["+i+"]",files[i]);
-//			formData.append("iop","ggg");
-//			$.ajax({ 
-//			url : ctx+"fileupdate", 
-//			type : 'POST', 
-//			data : formData, 
-//			// 告诉jQuery不要去处理发送的数据
-//			processData : false, 
-//			// 告诉jQuery不要去设置Content-Type请求头
-//			contentType : false,
-//			beforeSend:function(){
-//				console.log("正在进行，请稍候");
-//			},
-//			success : function(responseStr) {
-//				if(responseStr.status===0){
-//					console.log("成功"+responseStr);
-//				}else{
-//					console.log("失败");
-//				}
-//				$("#son").html("成功公里了");
-//			}, 
-//			error : function(responseStr) { 
-//				console.log("error");
-//			},
-//			xhr: function(){
-//		　　　　　　var xhr = $.ajaxSettings.xhr();
-//		　　　　　　if(onprogress && xhr.upload) {
-//		　　　　　　　　xhr.upload.addEventListener("progress" , onprogress, false);
-//		　　　　　　　　return xhr;
-//		　　　　　　}
-//		　　　　} 
-//		});
-//		}
-//		
-//		
-//	});
-//	var onprogress =function(a,b,c){
-//		var loaded = a.loaded;     //已经上传大小情况 
-//		 var tot = a.total;      //附件总大小 
-//		 var per = Math.floor(100*loaded/tot);  //已经上传的百分比 
-//		 $("#irs-single").html(per +"%");
-//		 var siPer = 0;
-//		 if(per<10){
-//		 	siPer = per+0.5;
-//		 }else{
-//		 	siPer = per;
-//		 }
-//		 console.info(siPer);
-//		 $("#irs-single").css({
-//		 	"left":siPer +"%"
-//		 });
-//		 $("#irs-bar").css("width" , per +"%");
-//	}
 });
