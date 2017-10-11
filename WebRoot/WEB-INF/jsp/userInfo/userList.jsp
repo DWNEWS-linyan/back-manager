@@ -6,15 +6,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 request.setAttribute("basePath", basePath);
 %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML>
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
 <!--[if !IE]><!-->
 <html lang="en">
   <head>
         <title>后台管理</title>
-         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta content="width=device-width, initial-scale=1" name="viewport" />
         <meta content="#1 selling multi-purpose bootstrap admin theme sold in themeforest marketplace packed with angularjs, material design, rtl support with over thausands of templates and ui elements and plugins to power any type of web applications including saas and admin dashboards. Preview page of Theme #1 for basic datatable samples"
             name="description" />
         <meta content="" name="author" />
@@ -50,6 +48,51 @@ request.setAttribute("basePath", basePath);
         .page-container-bg-solid .page-bar .page-breadcrumb>li>i.fa-circle, .page-content-white .page-bar .page-breadcrumb>li>i.fa-circle{
         	top:0px;
         }
+        .zijisanjiclass{ 
+			width: 220px;
+			border: 1px solid rgba(0,0,0,.15);
+			background-color: #fff;
+			padding: 10px;
+			top :0px;
+			position: absolute;
+			display: none;
+			z-index:20005;
+		}
+		.datepicker-select-dropdown.datepicker-select-orient-top:before {
+		    bottom: -7px;
+		    left: 6px;
+		    border-bottom: 0;
+		    border-top: 7px solid rgba(0,0,0,.15);
+		}
+		.datepicker-select-dropdown:before {
+		    border-left: 7px solid transparent;
+		    border-right: 7px solid transparent;
+		    border-bottom: 7px solid rgba(0,0,0,.15);
+		    border-bottom-color: rgba(0,0,0,.2);
+		}
+		.datepicker-select-dropdown:after, .datepicker-select-dropdown:before {
+		    content: '';
+		    display: inline-block;
+		    border-top: 0;
+		    position: absolute;
+		}
+		.datepicker-select-dropdown.datepicker-select-orient-top:after {
+		    bottom: -6px;
+		    left: 7px;
+		    border-bottom: 0;
+		    border-top: 6px solid #fff;
+		}	
+		.datepicker-select-dropdown:after {
+		    border-left: 6px solid transparent;
+		    border-right: 6px solid transparent;
+		    border-bottom: 6px solid #fff;
+		}
+		.datepicker-select-dropdown.datepicker-select-orient-bottom:after {
+		    top: -6px;
+		}
+		.datepicker-select-dropdown.datepicker-select-orient-bottom:before {
+		    top: -7px;
+		}
         </style>
         
   </head>
@@ -76,18 +119,93 @@ request.setAttribute("basePath", basePath);
                             </ul>
                         </div>
                         <div class="row">
-                        	<div class="col-md-2"></div>
-                            <div class="col-md-8">
-                            	<div class="row">
-                            		<div class="col-md-2"></div>
-                            		<div class="col-md-8">
-                            			<h2>测试仪额</h2>
-                            			<img alt="" style="width: 100%;" src="<%=basePath%>theme/img/timg.gif">
-                            		</div>
-                            		<div class="col-md-2"></div>
-                            	</div>
-                            </div>
-                            <div class="col-md-2"></div>
+                        	<div class="col-md-12">
+                        		<div class="portlet light portlet-fit portlet-datatable bordered">
+                        			<div class="portlet-title">
+						                <div class="caption">
+					<!-- 	                    <i class="icon-settings font-dark"></i> -->
+						                    <span class="caption-subject font-dark sbold uppercase">用户管理</span>
+						                </div>
+						                <div class="actions">
+						                    <div class="btn-group btn-group-devided" data-toggle="buttons">
+						                        <label class="btn btn-transparent grey-salsa btn-outline btn-circle btn-sm add-btn-class">
+					                            	添加用户信息
+					                            </label>
+						                    </div>
+						                </div>
+						            </div>
+                                    <div class="portlet-body">
+                                        <div class="table-container">
+                                            <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_ajax_user_info">
+                                                <thead>
+                                                    <tr role="row" class="heading">
+                                                        <th style="width:5%;"> ID </th>
+                                                        <th style="width:5%;"> 姓名 </th>
+                                                        <th style="width:5%;"> 年龄 </th>
+                                                        <th style="width:5%;"> 性别 </th>
+                                                        <th style="width:5%;"> 出生日期 </th>
+                                                        <th style="width:5%;"> 民族 </th>
+                                                        <th style="width:5%;"> 身高(cm) </th>
+                                                        <th style="width:5%;"> 体重(Kg) </th>
+                                                        <th style="width:5%;"> 学历 </th>
+                                                        <th style="width:15%;"> 操作 </th>
+                                                    </tr>
+                                                    <tr role="row" class="filter">
+                                                        <td>
+                                                        	<input type="text" class="form-control form-filter input-sm" name="userInfoId">
+                                                        </td>
+                                                        <td>
+                                                        	<input type="text" class="form-control form-filter input-sm" name="userName">
+                                                        </td>
+                                                        <td>
+                                                        	<input type="text" class="form-control form-filter input-sm" name="userAge">
+                                                        </td>
+                                                        <td>
+                                                        	<select class="form-control form-filter" style="height: 30px;padding: 4px 12px;">
+                                                        		<option value="男">男</option>
+                                                        		<option value="女">女</option>
+                                                        		<option value="其他">其他</option>
+                                                        	</select>
+                                                        </td>
+                                                        <td>
+                                                        	<input type="text" class="form-control form-filter input-sm" id="userBirthdayid" name="userBirthday">
+                                                        </td>
+                                                        <td>
+															<input type="text" class="form-control form-filter input-sm" name="userNations">
+														</td>
+                                                        <td> 
+                                                        	<input type="text" class="form-control form-filter input-sm" name="userHight">
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="form-control form-filter input-sm" name="userWeight">
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-control form-filter" style="height: 30px;padding: 4px 12px;">
+                                                        		<option value="博士">博士</option>
+                                                        		<option value="硕士">硕士</option>
+                                                        		<option value="本科">本科</option>
+                                                        		<option value="专科">专科</option>
+                                                        		<option value="高中">高中</option>
+                                                        		<option value="中专">中专</option>
+                                                        		<option value="初中">初中</option>
+                                                        		<option value="小学">小学</option>
+                                                        	</select>
+                                                        </td>
+                                                        <td>
+                                                            <div class="margin-bottom-5">
+                                                                <button class="btn btn-sm green btn-outline filter-submit margin-bottom">
+                                                                    <i class="fa fa-search"></i> Search</button> <button class="btn btn-sm red btn-outline filter-cancel">
+                                                                <i class="fa fa-times"></i> Reset</button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody> </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                        	</div>
                         </div>
                     </div>
                 </div>
@@ -95,6 +213,195 @@ request.setAttribute("basePath", basePath);
             <c:import url="../bottom.jsp"></c:import>
         </div>
         <div class="quick-nav-overlay"></div>
+        <div class="modal fade add-or-edit-modal-class" id="addOrEditUserInfo" tabindex="-1" role="dialog" style="top:0px;">
+		  <div class="modal-dialog modal-lg" style="width: 80%;" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title">添加/修改用户信息</h4>
+		      </div>
+		      <div class="modal-body">
+		      <div class="row">
+		      	<form action="" class="form-horizontal form-bordered" id="user-info-form-id">
+		      		<input type="hidden" name="editUserIdType" id="editUserIdType"/>
+		      		<div class="col-md-4" >
+                		<div class="row">
+                			<div class="col-md-1"></div>
+                			<div class="col-md-10" style="text-align: center;">
+                				<img class="herder-image" src="<%=basePath %>theme/assets/pages/media/profile/profile_user.jpg" style="float: none;width: 50%; height: 50%; margin: 0px auto; border-radius: 50% !important;"/>
+                			</div>
+                			<div class="col-md-1"></div>
+                		</div>
+                		<div class="row">
+                			<div class="col-md-1"></div>
+                			<div class="col-md-10" style="text-align: center;margin-top: 15px;">
+                				<input type="file" id="uploasd" name="file"/>
+                			</div>
+                			<div class="col-md-1"></div>
+                		</div>
+                	</div>
+		      		<div class="col-md-4 form" style=" border-left: 1px #e4e2e2 solid;">
+		      			<div class="form-body" id="formbodyid">
+                            <div class="form-group">
+                            	<label class="control-label col-md-3">姓名</label>
+                            	<div class="col-md-7">
+                            		<input class="form-control form-control-inline" name="name" type="text" value="" placeholder="请输入姓名" >
+                            	</div>
+                            </div>
+                            <div class="form-group">
+                            	<label class="control-label col-md-3">性别</label>
+                            	<div class="col-md-7">
+                            		<select class="form-control" name="sex">
+                            			<option>男</option>
+                            			<option>女</option>
+                            			<option>其他</option>
+                            		</select>
+                            	</div>
+                            </div>
+                            <div class="form-group">
+                            	<label class="control-label col-md-3">年龄</label>
+                            	<div class="col-md-7">
+                            		<input class="form-control form-control-inline" name="age" type="text" value="" placeholder="请输入年龄" >
+                            	</div>
+                            </div>
+                            <div class="form-group">
+                            	<label class="control-label col-md-3">身份证号</label>
+                            	<div class="col-md-7">
+                            		<input class="form-control form-control-inline" name="idCar" type="text" value="" placeholder="请输入身份证号" >
+                            	</div>
+                            </div>
+                            <div class="form-group">
+                            	<label class="control-label col-md-3">生日</label>
+                            	<div class="col-md-7">
+                            		<input class="form-control form-control-inline" name="birthday" type="text" value="" placeholder="请输入生日" >
+                            	</div>
+                            </div>
+                            <div class="form-group">
+                            	<label class="control-label col-md-3">手机号</label>
+                            	<div class="col-md-7">
+                            		<input class="form-control form-control-inline" name="tel" type="tel" value="" placeholder="请输入手机号" >
+                            	</div>
+                            </div>
+                            <div class="form-group">
+                            	<label class="control-label col-md-3">民族</label>
+                            	<div class="col-md-7">
+                            		<input class="form-control form-control-inline" name="nations" type="text" value="" placeholder="请输入民族" >
+                            	</div>
+                            </div>
+                        </div>
+                	</div>
+                	<div class="col-md-4 form" style=" border-left: 1px #e4e2e2 solid;">
+		      			<div class="form-body" id="formbodyid">
+                            <div class="form-group">
+                            	<label class="control-label col-md-3">身高</label>
+                            	<div class="col-md-7">
+                            		<input class="form-control form-control-inline" name="height" type="text" value="" placeholder="请输入身高" >
+                            	</div>
+                            </div>
+                            <div class="form-group">
+                            	<label class="control-label col-md-3">体重</label>
+                            	<div class="col-md-7">
+                            		<input class="form-control form-control-inline" name="weight" type="text" value="" placeholder="请输入体重" >
+                            	</div>
+                            </div>
+                            <div class="form-group">
+                            	<label class="control-label col-md-3">最高学历</label>
+                            	<div class="col-md-7">
+<!--                             		<input class="form-control form-control-inline" name="education" type="text" value="" placeholder="请输入" > -->
+									<select class="form-control" name="education">
+                                  		<option value="博士">博士</option>
+                                  		<option value="硕士">硕士</option>
+                                  		<option value="本科">本科</option>
+                                  		<option value="专科">专科</option>
+                                  		<option value="高中">高中</option>
+                                  		<option value="中专">中专</option>
+                                  		<option value="初中">初中</option>
+                                  		<option value="小学">小学</option>
+                                  	</select>
+                            	</div>
+                            </div>
+                            <div class="form-group">
+                            	<label class="control-label col-md-3">毕业院校</label>
+                            	<div class="col-md-7">
+                            		<input class="form-control form-control-inline" name="graduate" type="text" value="" placeholder="请输入毕业院校" >
+                            	</div>
+                            </div>
+                            <div class="form-group">
+                            	<label class="control-label col-md-3">专业</label>
+                            	<div class="col-md-7">
+                            		<input class="form-control form-control-inline" name="specialty" type="text" value="" placeholder="请输入专业" >
+                            	</div>
+                            </div>
+                            <div class="form-group">
+                            	<label class="control-label col-md-3">毕业时间</label>
+                            	<div class="col-md-7">
+                            		<input class="form-control form-control-inline" name="graduation" type="text" value="" placeholder="请输入毕业时间" >
+                            	</div>
+                            </div>
+                        </div>
+                	</div>
+                </form>
+		      </div>
+		      <div class="row" style="border-top: 1px #c1b8b8 solid; margin-top: 15px;padding-top: 15px;">
+		      	<div class="form-actions center" style="text-align: center; background-color: #fff;">
+                        <button type="button" class="btn btn-default default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn green save-user-info-class">提交</button>
+<!--                             <button type="submit" class="btn green">提交</button> -->
+                    </div>
+		      </div>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		
+		<div id="zijixiede" class="zijisanjiclass datepicker-select-dropdown datepicker-select-orient-left">
+        	<div class="form" style="border: 1px solid #e7ecf1!important;">
+        	<form class="form-horizontal form-bordered">
+        	<div class="form-group">
+        		<label class="control-label col-md-3">年</label>
+        		<div class="col-md-9">
+        			<select class="form-control form-filter" name="searchYear" id="searchYear">
+	        			<option value="">请选择</option>
+	        			<option value="2000">2000</option>
+	        			<option value="2001">2001</option>
+	        			<option value="2002">2002</option>
+	        			<option value="2003">2003</option>
+	        			<option value="2004">2004</option>
+	        			<option value="2005">2005</option>
+	        			<option value="2006">2006</option>
+	        			<option value="2007">2007</option>
+	        			<option value="2008">2008</option>
+	        			<option value="2009">2009</option>
+	        			<option value="2010">2010</option>
+	        			<option value="2011">2011</option>
+	        		</select>
+        		</div>
+        	</div>
+        	<div class="form-group">
+        		<label class="control-label col-md-3">月</label>
+        		<div class="col-md-9">
+        		<select class="form-control form-filter" name="searchMonth" id="searchMonth">
+        			<option value="">请选择</option>
+        		</select>
+        		</div>
+        	</div>
+        	<div class="form-group">
+	        	<label class="control-label col-md-3">日</label>
+	        	<div class="col-md-9">
+	        		<select class="form-control form-filter" name="searchDay" id="searchDay">
+	        			<option value="">请选择</option>
+	        		</select>
+        		</div>
+        	</div>
+        	<div class="form-group">
+        		<div class="col-md-11">
+        			<div class="btn btn-default quedingbtn" >确定</div>
+        		</div>
+        	</div>
+        	</form>
+        	</div>
+        </div>
+		
      <!--[if lt IE 9]>
 <script src="<%=basePath %>theme/assets/global/plugins/respond.min.js"></script>
 <script src="<%=basePath %>theme/assets/global/plugins/excanvas.min.js"></script> 
@@ -118,16 +425,189 @@ request.setAttribute("basePath", basePath);
         <script src="<%=basePath %>theme/assets/global/scripts/app.js" type="text/javascript"></script>
         <!-- END THEME GLOBAL SCRIPTS -->
         <!-- BEGIN PAGE LEVEL SCRIPTS -->
+        <script src="<%=basePath %>theme/script/userInfo/table-datatables-ajax-user-info.js" type="text/javascript"></script>
         <!-- END PAGE LEVEL SCRIPTS -->
         <!-- BEGIN THEME LAYOUT SCRIPTS -->
         <script src="<%=basePath %>theme/assets/layouts/layout/scripts/layout.js" type="text/javascript"></script>
         <script src="<%=basePath %>theme/assets/layouts/layout/scripts/menu.js?a=22" type="text/javascript"></script>
         <script src="<%=basePath %>theme/assets/layouts/layout/scripts/demo.js" type="text/javascript"></script>
+        <script src="<%=basePath %>theme/script/fileUploadLy.js" type="text/javascript"></script>
         <script src="<%=basePath %>theme/assets/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
         <script src="<%=basePath %>theme/assets/layouts/global/scripts/quick-nav.min.js" type="text/javascript"></script>
      <!-- END THEME LAYOUT SCRIPTS -->
      <script>
+		jQuery(document).ready(function(){
+			$(".add-btn-class").click(function(){
+				$("#user-info-form-id")[0].reset();
+				$(".add-or-edit-modal-class").modal("show");
+			});
+			$(".edit-harder").click(function(){
+				return false;
+			});
+			FileUploadLy.upLoade({"id":"uploasd","selectType":"image/gif,image/jpeg,image/jpg,image/png,image/svg","url":"","btnText":"更改头像","changeFn":function(files){
+				console.info(files[0].name);
+				var strc = getObjectURL(files[0]);
+				console.info(strc);
+				$(".herder-image").attr("src",strc);
+			}});
+			//建立一個可存取到該file的url
+			function getObjectURL(file) {
+				var url = null ;
+				if (window.createObjectURL!=undefined) { // basic
+					url = window.createObjectURL(file) ;
+				} else if (window.URL!=undefined) { // mozilla(firefox)
+					url = window.URL.createObjectURL(file) ;
+				} else if (window.webkitURL!=undefined) { // webkit or chrome
+					url = window.webkitURL.createObjectURL(file) ;
+				}
+				return url ;
+			}
+			
+			$(".save-user-info-class").click(function(){
+				App.blockUI();
+				var data = $("#user-info-form-id").serialize();
+				$.ajax({
+					url:App.domain()+"/updateTree",
+					data:data,
+					success: function(da){
+						if(da.code==0){
+						}else{
+						}
+						App.unblockUI();
+					},
+					error: function(a,b,c){
+						var status = a.status;
+						if(b=='timeout'){
+							bootbox.alert("不好意思  超时了 ");
+						}else{
+							App.errorAlertStatus(status);
+						}
+						App.unblockUI();
+					}
+				});
+			});
+			
+			$("#userBirthdayid").focus(function(){ 
+				//var offset = this.component ? this.component.parent().offset() : this.element.offset();
+				var offset = $(this).offset();
+				console.info(offset);
 
+				var paddingTop = $("#zijixiede").css('padding-top');
+				console.info(paddingTop);
+
+				var height =  $(this).outerHeight(false);
+				console.info(height);
+				var width =  $(this).outerWidth(false);
+				console.info(width);
+
+				var scrollTop = $(document).scrollTop();
+				console.info(scrollTop);
+
+				var outerHeight = $("#zijixiede").outerHeight();
+				console.info(outerHeight);
+				var top_overflow = -scrollTop + offset.top - outerHeight;
+				console.info(top_overflow);
+				var yorient = top_overflow < 0 ? 'bottom' : 'top';
+				$("#zijixiede").addClass('datepicker-select-orient-' + yorient);
+				var top = offset.top;
+				if (yorient === 'top')
+					top -= outerHeight + parseInt(paddingTop);
+				else
+					top += height;
+				var left = offset.left;
+				console.info(left);
+				$("#zijixiede").css({ 
+					top: top,
+					left: left
+				});
+				$("#zijixiede").show();
+			});
+			$(document).mousedown(function(e){
+				if(!($("#zijixiede").find(e.target).length)&&!($("#userBirthdayid").is(e.target)))
+					$("#zijixiede").hide();
+			});
+			$(".quedingbtn").click(function(){ 
+				console.info("拉克建档立卡京东方拉克");
+				if($("#searchYear").val()!=null&&$("#searchYear").val()!=""&&$("#searchYear").val()!=undefined){
+					var searchDate ; 
+					if($("#searchMonth").val()==null||$("#searchMonth").val()==""||$("#searchMonth").val()==undefined){
+						searchDate = $("#searchYear").val();
+					}else if($("#searchDay").val()==null||$("#searchDay").val()==""||$("#searchDay").val()==undefined){
+						searchDate = $("#searchYear").val()+"-"+$("#searchMonth").val();
+					}else{
+						searchDate = $("#searchYear").val()+"-"+$("#searchMonth").val()+"-"+$("#searchDay").val();
+					}
+					$("#userBirthdayid").val(searchDate);
+					$("#zijixiede").hide();
+				}
+			});
+			
+			var Months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+			
+			
+			
+			$("#searchYear").change(function(){
+				var searchMoth = $("#searchMonth");
+				var searchYearValue = $(this).val();
+				var searchDay = $("#searchDay");
+				if(searchYearValue==null||searchYearValue==""||searchYearValue==undefined){
+					$(searchMoth).html('<option value="">请选择</option>');
+					$(searchDay).html('<option value="">请选择</option>');
+				}else{
+					if(searchMoth.children().length<2){
+						$(searchMoth).html('<option value="">请选择</option>');
+						for(var i = 1 ; i < 13 ; i++){
+							$(searchMoth).append('<option value="'+i+'">'+i+'</option>');
+						}
+					}
+					var searchMothValue = $(searchMoth).val();
+					var isLeapYear = IsPinYear(searchYearValue);
+					$(searchDay).html('<option value="">请选择</option>');
+					if(searchMothValue == 2 && isLeapYear){
+						for(var i = 1 ; i < 30 ;i ++){
+							$(searchDay).append('<option value="'+i+'">'+i+'</option>');
+						}
+					}else if(searchMothValue == "" || searchMothValue == null || searchMothValue == undefined){
+					}else{
+						var monthNum = new Number(searchMothValue);
+						var monthLenth = Months[monthNum-1];
+						for(var i = 1 ;i <= monthLenth ; i++){
+							$(searchDay).append('<option value="'+i+'">'+i+'</option>');
+						}
+					}
+				}
+			});
+			$("#searchMonth").change(function(){
+				var searchYearValue = $("#searchYear").val();
+				if(searchYearValue==null||searchYearValue==""||searchYearValue==undefined){
+					$(this).html('<option value="">请选择</option>');
+				}
+				var searchDay = $("#searchDay");
+				var searchMothValue = $(this).val();
+				$(searchDay).html('<option value="">请选择</option>');
+				if(searchMothValue != "" && searchMothValue != null && searchMothValue != undefined){
+					var isLeapYear = IsPinYear(searchYearValue);
+					if(searchMothValue == 2 && isLeapYear){
+						for(var i = 1 ; i < 30 ;i ++){
+							$(searchDay).append('<option value="'+i+'">'+i+'</option>');
+						}
+					}else{
+						var monthNum = new Number(searchMothValue);
+						var monthLenth = Months[monthNum-1];
+						for(var i = 1 ;i <= monthLenth ; i++){
+							$(searchDay).append('<option value="'+i+'">'+i+'</option>');
+						}
+					}
+				}
+			});
+			
+			//判断是否闰平年
+			function IsPinYear(year)
+			{
+				return(0 == year%4 && (year%100 !=0 || year%400 == 0));
+			}
+			
+		});
 	</script>
  </body>
 </html>

@@ -124,29 +124,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<div class="col-md-2"></div>
     	<div class="col-md-2"></div>
     </div>
-    <div class="modal fade" id="modalidag">
-    	<div class="row" style="height: 90px;">
-	    	<div class="col-md-2"></div>
-	    	<div class="col-md-2"></div>
-	    	<div class="col-md-2"></div>
-	    	<div class="col-md-2"></div>
-	    	<div class="col-md-2"></div>
-	    </div>
-    	<div class="row">
-    		<div class="col-md-2"></div>
-    		<div class="col-md-2">
-    			<form action="">
-			    	<input id="upload" multiple="multiple" name="file" type="file"/>
-			    </form>
-    		</div>
-    		<div class="col-md-2"></div>
-    	</div>
-    </div>
-    
-    
-    
-    <button id="gjgj">哦离开过</button>
-    
    
     
     <script src="<%=basePath %>theme/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
