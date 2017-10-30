@@ -209,15 +209,15 @@ public class SendMail {
 			List<File> files = new ArrayList<File>();
 			files.add(new File("C:\\Users\\linyan\\Desktop\\APP管理后台PHP端接口.doc"));
 //			FileInputStream inputStream = new FileInputStream(new File("C:\\Users\\linyan\\Desktop\\APP管理后台PHP端接口.doc"));
-//			SendMail.sendMessage("smtp.gmail.com", "465", true, "linyan@dwnews.com", "linyan9248..", toUsers, ccUsers, "agg", "ggggggggggggg", "text/html;charset=gb2312",inputStream);
-			SendMail.sendMessage(true,"smtp.global-mail.cn", "25", false, "linyan@caixun.com", "ly123456..", toUsers,null, null, "agg", "gggggg是打发ggggggg",null,null);
+//			SendMail.sendMessage("smtp.gmail.com", "465", true, "linyan@dwnews.com", "", toUsers, ccUsers, "agg", "ggggggggggggg", "text/html;charset=gb2312",inputStream);
+			SendMail.sendMessage(true,"smtp.global-mail.cn", "25", false, "linyan@caixun.com", "", toUsers,null, null, "agg", "gggggg是打发ggggggg",null,null);
 //			SendMail.sendMessage("smtp.gmail.com", "linyan@dwnews.com",
 ////					SendMail.sendMessage("smtp.gmail.com", "linyan9248@gmail.com",
-//					"linyan9248..", "linyan@caixun.com", "nihao",
+//					"", "linyan@caixun.com", "nihao",
 //					"---------------wrwe-----------",
 //					"text/html;charset=gb2312");
 //			SendMail.sendMessage("smtp.global-mail.cn", "linyan@caixun.com",
-//					"ly123456..", "linyan@dwnews.com", "nihao",
+//					"", "linyan@dwnews.com", "nihao",
 //					"---------------wrwe-----------",
 //					"text/html;charset=gb2312");
 			String lajlkString = "linyan@caixun.com";
