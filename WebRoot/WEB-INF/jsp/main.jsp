@@ -55,12 +55,12 @@ request.setAttribute("basePath", basePath);
 
   <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
         <div class="page-wrapper">
-            <c:import url="header.jsp"></c:import> 
+            <c:import url="${basePath }common/header.jsp"></c:import> 
             <div class="clearfix"> </div>
             <div class="page-container">
                 <div class="page-sidebar-wrapper">
                     <div class="page-sidebar navbar-collapse collapse">
-                        <c:import url="menu.jsp"></c:import>
+                        <c:import url="${basePath }common/menu.jsp"></c:import>
                     </div>
                 </div>
                 <div class="page-content-wrapper" >
@@ -91,7 +91,7 @@ request.setAttribute("basePath", basePath);
                     </div>
                 </div>
             </div>
-            <c:import url="bottom.jsp"></c:import>
+            <c:import url="${basePath }common/bottom.jsp"></c:import>
         </div>
         <div class="quick-nav-overlay"></div>
      <!--[if lt IE 9]>

@@ -75,10 +75,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
              <div class="form-group">
                  <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
                  <label class="control-label visible-ie8 visible-ie9">用户名</label>
-                 <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="请输入您的用户名" name="userName" /> </div>
+                 <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="请输入您的用户名" name="userName" value="${userNmae }"/> </div>
              <div class="form-group">
                  <label class="control-label visible-ie8 visible-ie9">密码</label>
-                 <input class="form-control form-filter input-sm " type="password" autocomplete="off" placeholder="请输入您的密码" name="userPass" /> 
+                 <input class="form-control form-filter input-sm " type="password" autocomplete="off" placeholder="请输入您的密码" name="userPass" value="${userPass }"/> 
              </div>
              <div class="form-group">
 <!--                  <div class="col-md-4"> -->
@@ -100,7 +100,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
              <div class="form-actions">
                  <div class="pull-left">
                      <label class="rememberme mt-checkbox mt-checkbox-outline">
-                         <input type="checkbox" name="remenber" value="1" /> 记住用户名密码
+                         <input type="checkbox"  name="remenber" value="1" <c:if test="${ramenber == '1' }"> checked="checked" </c:if> /> 记住用户名密码
                          <span></span>
                      </label>
                  </div>
@@ -112,19 +112,46 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
          </form>
          <!-- END LOGIN FORM -->
          <!-- BEGIN FORGOT PASSWORD FORM -->
-         <form class="forget-form" action="index.html" method="post">
+         <form class="forget-form" action="index.html" onkeydown="if(event.keyCode==13)return false;" method="post">
              <div class="form-title">
                  <span class="form-title">找回密码 ?</span>
-                 <span class="form-subtitle">请输入您的手机号</span>
+                 <span class="form-subtitle text-tell-phone">请输入您的手机号</span>
              </div>
              <div class="form-group">
-                 <input class="form-control placeholder-no-fix" type="tel" maxlength="11" autocomplete="off" placeholder="请输入您的手机号" name="telPhone" /> </div>
+             	<div class="input-group" style="width:100%;">
+                 <input class="form-control placeholder-no-fix" type="tel" maxlength="11" autocomplete="off" placeholder="请输入您的手机号" name="telPhoneCallBack" />
+                 <span class="input-group-btn colback-span" style="width: 30%;">
+                	<button class="btn colback-pass">获取找回码</button> 
+                 </span>
+                 </div>
+             </div>
+             <div class="form-group">
+                 <input class="form-control placeholder-no-fix" type="tel" maxlength="4" autocomplete="off" placeholder="请输入您手机中的找回码" name="telPhone">
+             </div>
              <div class="form-actions">
                  <button type="button" id="back-btn" class="btn btn-default">返回</button>
                  <button type="submit" class="btn btn-primary uppercase pull-right">确定</button>
              </div>
          </form>
          <!-- END FORGOT PASSWORD FORM -->
+         <!-- 新密码 -->
+         <form class="forget-passnew-form" action="index.html" method="post" style="display:none;">
+             <div class="form-title">
+                 <span class="form-title">找回密码 ?</span>
+                 <span class="form-subtitle text-new-pass">请输入新密码</span>
+             </div>
+             <div class="form-group">
+                 <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="请输入新的密码" name="passnew" />
+             </div>
+             <div class="form-group">
+                 <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="请在次输入新的密码" name="passnewagien">
+             </div>
+             <div class="form-actions">
+                 <button type="button" id="back-btn-tow" class="btn btn-default">返回</button>
+                 <button type="submit" class="btn btn-primary uppercase pull-right">确定</button>
+             </div>
+         </form>
+         
      </div>
      <div class="copyright hide">  </div>
      <!-- END LOGIN -->
@@ -149,7 +176,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <script src="<%=basePath %>theme/assets/global/scripts/app.js?a=111" type="text/javascript"></script>
      <!-- END THEME GLOBAL SCRIPTS -->
      <!-- BEGIN PAGE LEVEL SCRIPTS -->
-     <script src="<%=basePath %>theme/assets/pages/scripts/login.js?a=6" type="text/javascript"></script>
+     <script src="<%=basePath %>theme/assets/pages/scripts/login.js?a=65" type="text/javascript"></script>
      <!-- END PAGE LEVEL SCRIPTS -->
      <!-- BEGIN THEME LAYOUT SCRIPTS -->
      <!-- END THEME LAYOUT SCRIPTS -->

@@ -2,6 +2,13 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+String handerImageDuf = basePath+"theme/assets/layouts/layout/img/avatar3_small.jpg";
+
+String picIcon = (String)request.getSession().getAttribute("picIcon");
+if(picIcon==null||picIcon.equals("")){
+	picIcon = handerImageDuf;
+}
+
 %>
 
 <div class="page-header navbar navbar-fixed-top">
@@ -38,7 +45,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                  <li class="dropdown dropdown-extended dropdown-tasks" id="header_task_bar">
                      <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                          <i class="icon-calendar"></i>
-                         <span class="badge badge-default"> 2 </span>
+                         <span class="badge badge-default"> 255 </span>
                      </a>
                      <ul class="dropdown-menu extended tasks">
                          <li class="external">
@@ -83,38 +90,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                  <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
                  <li class="dropdown dropdown-user">
                      <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                         <img alt="" class="img-circle" src="<%=basePath %>theme/assets/layouts/layout/img/avatar3_small.jpg" />
+                         <img alt="" class="img-circle" src="<%=picIcon %>" />
                          <span class="username username-hide-on-mobile"> linyan </span>
                          <i class="fa fa-angle-down"></i>
                      </a>
                      <ul class="dropdown-menu dropdown-menu-default">
                          <li>
-                             <a href="page_user_profile_1.html">
+                             <a href="<%=basePath %>userInfo/personInfo">
                                  <i class="icon-user"></i> 个人资料 </a>
                          </li>
                          <li>
                              <a href="app_calendar.html">
                                  <i class="icon-calendar"></i> 记事本 </a>
                          </li>
-                         <li>
-                             <a href="app_inbox.html">
-                                 <i class="icon-envelope-open"></i> 收件箱
-                                 <span class="badge badge-danger"> 3 </span>
-                             </a>
-                         </li>
-                         <li>
-                             <a href="app_todo.html">
-                                 <i class="icon-rocket"></i> 任务
-                                 <span class="badge badge-success"> 2 </span>
-                             </a>
-                         </li>
+<!--                          <li> -->
+<!--                              <a href="app_inbox.html"> -->
+<!--                                  <i class="icon-envelope-open"></i> 收件箱 -->
+<!--                                  <span class="badge badge-danger"> 3 </span> -->
+<!--                              </a> -->
+<!--                          </li> -->
                          <li class="divider"> </li>
                          <li>
-                             <a href="page_user_lock_1.html">
-                                 <i class="icon-lock"></i> 锁屏 </a>
-                         </li>
-                         <li>
-                             <a href="page_user_login_1.html">
+                             <a href="<%=basePath %>sys/logout">
                                  <i class="icon-key"></i> 退出 </a>
                          </li>
                      </ul>

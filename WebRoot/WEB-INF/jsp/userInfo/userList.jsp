@@ -99,12 +99,12 @@ request.setAttribute("basePath", basePath);
 
   <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
         <div class="page-wrapper">
-            <c:import url="../header.jsp"></c:import> 
+            <c:import url="${basePath }common/header.jsp"></c:import> 
             <div class="clearfix"> </div>
             <div class="page-container">
                 <div class="page-sidebar-wrapper">
                     <div class="page-sidebar navbar-collapse collapse">
-                        <c:import url="../menu.jsp"></c:import>
+                        <c:import url="${basePath }common/menu.jsp"></c:import>
                     </div>
                 </div>
                 <div class="page-content-wrapper" >
@@ -210,7 +210,7 @@ request.setAttribute("basePath", basePath);
                     </div>
                 </div>
             </div>
-            <c:import url="../bottom.jsp"></c:import>
+            <c:import url="${basePath }common/bottom.jsp"></c:import>
         </div>
         <div class="quick-nav-overlay"></div>
         <div class="modal fade add-or-edit-modal-class" id="addOrEditUserInfo" tabindex="-1" role="dialog" style="top:0px;">
@@ -221,9 +221,9 @@ request.setAttribute("basePath", basePath);
 		        <h4 class="modal-title">添加/修改用户信息</h4>
 		      </div>
 		      <div class="modal-body">
+		      <form action="#" class="form-horizontal form-bordered" id="user-info-form-id">
 		      <div class="row">
-		      	<form action="" class="form-horizontal form-bordered" id="user-info-form-id">
-		      		<input type="hidden" name="editUserIdType" id="editUserIdType"/>
+		      		<input type="hidden" name="id" id="editUserId"/>
 		      		<div class="col-md-4" >
                 		<div class="row">
                 			<div class="col-md-1"></div>
@@ -245,41 +245,48 @@ request.setAttribute("basePath", basePath);
                             <div class="form-group">
                             	<label class="control-label col-md-3">姓名</label>
                             	<div class="col-md-7">
-                            		<input class="form-control form-control-inline" name="name" type="text" value="" placeholder="请输入姓名" >
+                            		<input class="form-control" name="name" type="text" value="" placeholder="请输入姓名" >
                             	</div>
                             </div>
                             <div class="form-group">
                             	<label class="control-label col-md-3">性别</label>
                             	<div class="col-md-7">
                             		<select class="form-control" name="sex">
-                            			<option>男</option>
-                            			<option>女</option>
-                            			<option>其他</option>
+                            			<option value="男">男</option>
+                            			<option value="女">女</option>
+                            			<option value="其他">其他</option>
                             		</select>
                             	</div>
                             </div>
                             <div class="form-group">
                             	<label class="control-label col-md-3">年龄</label>
                             	<div class="col-md-7">
-                            		<input class="form-control form-control-inline" name="age" type="text" value="" placeholder="请输入年龄" >
+                            		<input class="form-control form-control-inline" name="age" type="text" maxlength="3" value="" placeholder="请输入年龄" >
                             	</div>
                             </div>
                             <div class="form-group">
                             	<label class="control-label col-md-3">身份证号</label>
                             	<div class="col-md-7">
-                            		<input class="form-control form-control-inline" name="idCar" type="text" value="" placeholder="请输入身份证号" >
+                            		<input class="form-control form-control-inline" name="idCar" maxlength="18" type="text" value="" placeholder="请输入身份证号" >
                             	</div>
                             </div>
                             <div class="form-group">
                             	<label class="control-label col-md-3">生日</label>
                             	<div class="col-md-7">
-                            		<input class="form-control form-control-inline" name="birthday" type="text" value="" placeholder="请输入生日" >
+                            		<div class="input-group date date-picker" data-date-format="yyyy-mm-dd" data-date-viewmode="years">
+									    <input class="form-control form-control-inline" name="birthday" type="text" value="" placeholder="请输入生日" >
+									    <span class="input-group-btn">
+									        <button class="btn default" type="button">
+									            <i class="fa fa-calendar"></i>
+									        </button>
+									    </span>
+									</div>
                             	</div>
                             </div>
                             <div class="form-group">
                             	<label class="control-label col-md-3">手机号</label>
                             	<div class="col-md-7">
-                            		<input class="form-control form-control-inline" name="tel" type="tel" value="" placeholder="请输入手机号" >
+                            		<input class="form-control form-control-inline" name="tel" maxlength="11" type="tel" value="" placeholder="请输入手机号" >
                             	</div>
                             </div>
                             <div class="form-group">
@@ -293,15 +300,15 @@ request.setAttribute("basePath", basePath);
                 	<div class="col-md-4 form" style=" border-left: 1px #e4e2e2 solid;">
 		      			<div class="form-body" id="formbodyid">
                             <div class="form-group">
-                            	<label class="control-label col-md-3">身高</label>
+                            	<label class="control-label col-md-3">身高cm</label>
                             	<div class="col-md-7">
-                            		<input class="form-control form-control-inline" name="height" type="text" value="" placeholder="请输入身高" >
+                            		<input class="form-control form-control-inline" name="height" maxlength="3" type="text" value="" placeholder="请输入身高" >
                             	</div>
                             </div>
                             <div class="form-group">
-                            	<label class="control-label col-md-3">体重</label>
+                            	<label class="control-label col-md-3">体重kg</label>
                             	<div class="col-md-7">
-                            		<input class="form-control form-control-inline" name="weight" type="text" value="" placeholder="请输入体重" >
+                            		<input class="form-control form-control-inline" name="weight" type="text" maxlength="3" value="" placeholder="请输入体重" >
                             	</div>
                             </div>
                             <div class="form-group">
@@ -335,20 +342,27 @@ request.setAttribute("basePath", basePath);
                             <div class="form-group">
                             	<label class="control-label col-md-3">毕业时间</label>
                             	<div class="col-md-7">
-                            		<input class="form-control form-control-inline" name="graduation" type="text" value="" placeholder="请输入毕业时间" >
+                            		<div class="input-group date date-picker" data-date-format="yyyy-mm-dd" data-date-viewmode="years">
+									    <input class="form-control form-control-inline" name="graduation" type="text" value="" placeholder="请输入毕业时间" >
+									    <span class="input-group-btn">
+									        <button class="btn default" type="button">
+									            <i class="fa fa-calendar"></i>
+									        </button>
+									    </span>
+									</div>
                             	</div>
                             </div>
                         </div>
                 	</div>
-                </form>
 		      </div>
 		      <div class="row" style="border-top: 1px #c1b8b8 solid; margin-top: 15px;padding-top: 15px;">
 		      	<div class="form-actions center" style="text-align: center; background-color: #fff;">
                         <button type="button" class="btn btn-default default" data-dismiss="modal">取消</button>
-                        <button type="button" class="btn green save-user-info-class">提交</button>
+                        <button type="submit" class="btn green save-user-info-class">提交</button>
 <!--                             <button type="submit" class="btn green">提交</button> -->
                     </div>
 		      </div>
+		      </form>
 		      </div>
 		    </div><!-- /.modal-content -->
 		  </div><!-- /.modal-dialog -->
@@ -420,12 +434,17 @@ request.setAttribute("basePath", basePath);
         <script src="<%=basePath %>theme/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
         <script src="<%=basePath %>theme/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js" type="text/javascript"></script>
         <script src="<%=basePath %>theme/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
+        <script src="<%=basePath %>theme/assets/global/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js" type="text/javascript"></script>
         <!-- END PAGE LEVEL PLUGINS -->
         <!-- BEGIN THEME GLOBAL SCRIPTS -->
         <script src="<%=basePath %>theme/assets/global/scripts/app.js" type="text/javascript"></script>
         <!-- END THEME GLOBAL SCRIPTS -->
         <!-- BEGIN PAGE LEVEL SCRIPTS -->
+        <script src="<%=basePath %>theme/assets/global/plugins/bootbox/bootbox.min.js" type="text/javascript"></script>
+        <script src="<%=basePath %>theme/assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
         <script src="<%=basePath %>theme/script/userInfo/table-datatables-ajax-user-info.js" type="text/javascript"></script>
+        <script src="<%=basePath %>theme/script/formvalidateadd.js" type="text/javascript"></script>
+        <script src="<%=basePath %>theme/script/userInfo/form-validate-user-info.js" type="text/javascript"></script>
         <!-- END PAGE LEVEL SCRIPTS -->
         <!-- BEGIN THEME LAYOUT SCRIPTS -->
         <script src="<%=basePath %>theme/assets/layouts/layout/scripts/layout.js" type="text/javascript"></script>
@@ -434,17 +453,119 @@ request.setAttribute("basePath", basePath);
         <script src="<%=basePath %>theme/script/fileUploadLy.js" type="text/javascript"></script>
         <script src="<%=basePath %>theme/assets/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
         <script src="<%=basePath %>theme/assets/layouts/global/scripts/quick-nav.min.js" type="text/javascript"></script>
+        
      <!-- END THEME LAYOUT SCRIPTS -->
      <script>
 		jQuery(document).ready(function(){
 			$(".add-btn-class").click(function(){
+				if (jQuery().datepicker) {
+		            $('.date-picker').datepicker({
+		                rtl: App.isRTL(),
+						"language":"zh-CN",
+		                "orientation": "left",
+		                "autoclose": true
+		            });
+		            //$('body').removeClass("modal-open"); // fix bug when inline picker is used in modal
+		        }
+				$("#editUserId").val("");
 				$("#user-info-form-id")[0].reset();
+				$(".herder-image").attr("src",App.domain()+"/theme/assets/pages/media/profile/profile_user.jpg");
+				$("#user-info-form-id").find(".has-error").removeClass('has-error');
+				$("#user-info-form-id").find(".help-block").remove();
 				$(".add-or-edit-modal-class").modal("show");
 			});
-			$(".edit-harder").click(function(){
-				return false;
+			
+			
+			$("#datatable_ajax_user_info").on("click",".edit-user-info-class",function(){
+				var userInfoId = $(this).data("id");
+				$.ajax({
+					url:App.domain()+"/userInfo/editFind",
+					data:{id:userInfoId},
+	                type:"post",
+					success: function(da){
+						if(da.code==0){
+							$("#editUserId").val(userInfoId);
+							if (jQuery().datepicker) {
+					            $('.date-picker').datepicker({
+					                rtl: App.isRTL(),
+									"language":"zh-CN",
+					                "orientation": "left",
+					                "autoclose": true
+					            });
+					        }
+							$("#user-info-form-id")[0].reset();
+							var d = da.reData;
+							console.info(d);
+							$("input[name='age']").val(d.age);
+							$("input[name='birthday']").val(d.birthday);
+							$("select[name='education']").val(d.education);
+							$("input[name='graduate']").val(d.graduate);
+							$("input[name='graduation']").val(d.graduation);
+							$("input[name='height']").val(d.height);
+							$("input[name='idCar']").val(d.idCar);
+							$("input[name='name']").val(d.name);
+							$("input[name='nations']").val(d.nations);
+							$("input[name='picIcon']").val(d.picIcon);
+							$("select[name='sex']").val(d.sex);
+							$("input[name='specialty']").val(d.specialty);
+							$("input[name='tel']").val(d.tel);
+							$("input[name='id']").val(d.id);
+							$("input[name='weight']").val(d.weight);
+							if(d.picIcon!=null&&d.picIcon!=""&&d.picIcon!=undefined){
+								$(".herder-image").attr("src",d.picIcon);
+							}else{
+								$(".herder-image").attr("src",App.domain()+"/theme/assets/pages/media/profile/profile_user.jpg");
+							}
+							$("#user-info-form-id").find(".has-error").removeClass('has-error');
+							$("#user-info-form-id").find(".help-block").remove();
+							$(".add-or-edit-modal-class").modal("show");
+						}else{
+							bootbox.alert(da.mes);
+						}
+						App.unblockUI();
+					},
+					error: function(a,b,c){
+						var status = a.status;
+						if(b=='timeout'){
+							bootbox.alert("不好意思  超时了 ");
+						}else{
+							App.errorAlertStatus(status);
+						}
+						App.unblockUI();
+					}
+				});
 			});
-			FileUploadLy.upLoade({"id":"uploasd","selectType":"image/gif,image/jpeg,image/jpg,image/png,image/svg","url":"","btnText":"更改头像","changeFn":function(files){
+			
+			$("#datatable_ajax_user_info").on("click",".delete-user-info-class",function(){
+				var userInfoId = $(this).data("id");
+				//
+				$.ajax({
+					url:App.domain()+"/userInfo/deleteUserInfo",
+					data:{id:userInfoId},
+	                type:"post",
+					success: function(da){
+						if(da.code==0){
+							var oTable = $('#datatable_ajax_user_info').dataTable();
+							oTable.fnDraw();
+						}else{
+							bootbox.alert(da.mes);
+						}
+						App.unblockUI();
+					},
+					error: function(a,b,c){
+						var status = a.status;
+						if(b=='timeout'){
+							bootbox.alert("不好意思  超时了 ");
+						}else{
+							App.errorAlertStatus(status);
+						}
+						App.unblockUI();
+					}
+				});
+			});
+			
+			
+			FileUploadLy.upLoade({"id":"uploasd","selectType":"image/gif,image/jpeg,image/jpg,image/png,image/svg","aout":false,"btnText":"更改头像","changeFn":function(files){
 				console.info(files[0].name);
 				var strc = getObjectURL(files[0]);
 				console.info(strc);
@@ -462,30 +583,6 @@ request.setAttribute("basePath", basePath);
 				}
 				return url ;
 			}
-			
-			$(".save-user-info-class").click(function(){
-				App.blockUI();
-				var data = $("#user-info-form-id").serialize();
-				$.ajax({
-					url:App.domain()+"/updateTree",
-					data:data,
-					success: function(da){
-						if(da.code==0){
-						}else{
-						}
-						App.unblockUI();
-					},
-					error: function(a,b,c){
-						var status = a.status;
-						if(b=='timeout'){
-							bootbox.alert("不好意思  超时了 ");
-						}else{
-							App.errorAlertStatus(status);
-						}
-						App.unblockUI();
-					}
-				});
-			});
 			
 			$("#userBirthdayid").focus(function(){ 
 				//var offset = this.component ? this.component.parent().offset() : this.element.offset();
