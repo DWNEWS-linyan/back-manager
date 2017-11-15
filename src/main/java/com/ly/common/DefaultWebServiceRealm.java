@@ -25,6 +25,7 @@ import com.ly.po.SysRole;
 import com.ly.po.SysTree;
 import com.ly.po.SysUser;
 import com.ly.service.shior.IShiorUserService;
+import com.ly.utils.MyProperties;
 
 /**
 * @ClassName: DefaultWebServiceRealm
@@ -35,8 +36,6 @@ import com.ly.service.shior.IShiorUserService;
 */
 public class DefaultWebServiceRealm extends AuthorizingRealm {
 
-	private static final String SESSION_USER_KEY = "user:session:key";
-	
 	private IShiorUserService shiorUserService;
 	
 	private RedisManager redisManager;
@@ -83,10 +82,10 @@ public class DefaultWebServiceRealm extends AuthorizingRealm {
 			throw new IndexOutOfBoundsException("密码错误");
 		}
 	    Session session = SecurityUtils.getSubject().getSession();
-        session.setAttribute(SESSION_USER_KEY, sysUser); 
+        session.setAttribute(MyProperties.get("SESSION_USER_KEY"), sysUser); 
         
         HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
-        request.getSession().setAttribute(SESSION_USER_KEY, sysUser);
+        request.getSession().setAttribute(MyProperties.get("SESSION_USER_KEY"), sysUser);
         
         List<SysRole> roles = shiorUserService.selectSysRoleByUserId(sysUser.getId());
         List<SysTree> trees = shiorUserService.selectSysTreeByRoleIds(roles);

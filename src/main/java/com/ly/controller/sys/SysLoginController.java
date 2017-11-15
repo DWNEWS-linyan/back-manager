@@ -14,8 +14,10 @@ import java.util.Map;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -34,6 +36,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ly.po.SysUser;
+import com.ly.service.sys.ISysUserService;
+import com.ly.service.sys.IUserInfoService;
+import com.ly.utils.MyProperties;
+import com.ly.vo.AddOrEditUserInfoVo;
+
 /**
 * @ClassName: SysLoginController
 * @Description: 
@@ -47,6 +55,14 @@ public class SysLoginController {
 
 	@Autowired
 	private RedisManager redisManager;
+	
+	@Autowired
+	private ISysUserService sysUserService;
+	
+	@Autowired
+	private IUserInfoService userInfoService;
+	
+	private final String CALLBACK_REDIS_END_KEY = "-callback";
 	
 	
 	@RequestMapping(value="login")
@@ -97,6 +113,21 @@ public class SysLoginController {
 			System.out.println("对用户[" + userName + "]进行登录验证..验证开始");
 			currentUser.login(token);
 			url = "redirect:/sys/main";
+			if (remenber!=null&&"1".equals(remenber)) {
+				Cookie cookie = new Cookie("userName", userName);
+				cookie.setMaxAge(7*24*60*60);
+				response.addCookie(cookie);
+				
+				Cookie passCookie = new Cookie("userPass", userPass);
+				passCookie.setMaxAge(7*24*60*60);
+				response.addCookie(passCookie);
+			}
+			HttpSession session = request.getSession();
+			SysUser sysUser = (SysUser)session.getAttribute(MyProperties.get("SESSION_USER_KEY"));
+			Integer userInfoId = Integer.valueOf(sysUser.getUserId());
+			AddOrEditUserInfoVo userInfo = userInfoService.editFind(userInfoId);
+			String picIcon = userInfo.getPicIcon();
+			session.setAttribute("picIcon", picIcon);
 			System.out.println("对用户[" + userName + "]进行登录验证..验证通过");
 		} catch (UnknownAccountException a) {
 			System.out.println("对用户[" + userName + "]进行登录验证..验证未通过,未知账户");
@@ -161,8 +192,8 @@ public class SysLoginController {
         int itmp=0;  
         //制定输出的验证码为四位  
         for(int i=0;i<4;i++){  
-//            switch(5){  
-            switch(random.nextInt(3)){  
+//            switch(random.nextInt(3)){  
+            switch(4){  //测试时  不生成 字母 和 汉字
                 case 1:     //生成A-Z的字母  
                      itmp=random.nextInt(26)+65;  
                      ctmp=String.valueOf((char)itmp);  
@@ -314,10 +345,81 @@ public class SysLoginController {
     
     
 	@RequestMapping(value = "index")
-	public String index(String mes,Model model){
+	public String index(String mes,Model model,HttpServletRequest request){
 		SecurityUtils.getSubject().logout();
 		model.addAttribute("mes", mes);
+		Cookie[] cookies = request.getCookies();
+		String userName = "";
+		String userPass = "";
+		String ramenber = "0";
+		if (cookies!=null&&cookies.length>0) {
+			for (Cookie cookie : cookies) {
+				if ("userName".equals(cookie.getName())) {
+					ramenber = "1";
+					userName = cookie.getValue();
+				}else if ("userPass".equals(cookie.getName())) {
+					userPass = cookie.getValue();
+				}
+			}
+		}
+		model.addAttribute("userNmae", userName);
+		model.addAttribute("userPass", userPass);
+		model.addAttribute("ramenber", ramenber);
 		return "index";
+	}
+	/**
+	 * @Title: retrievePass
+	 * @author: linyan
+	 * @Description: 找回密码
+	 * @return
+	 */
+	@RequestMapping(value = "retrievePass")
+	@ResponseBody
+	public Object retrievePass(String telPhoneCallBack ,HttpServletRequest request,HttpServletResponse response){
+		Map<String, Object> map = new HashMap<String, Object>();
+		map = sysUserService.retrievePass(telPhoneCallBack);
+		if(map.get("code").toString().equals("0")){
+			String callbackcode = "";
+			for (int i = 0; i < 4; i++) {
+				Random random = new Random();
+				int a1 = random.nextInt(10);
+				callbackcode+=a1;
+			}
+			redisManager.set((telPhoneCallBack+CALLBACK_REDIS_END_KEY).getBytes(),callbackcode.getBytes(), 60*2);
+			map.put("callbackdoe", callbackcode);
+			System.out.println("找回码："+telPhoneCallBack+"----"+callbackcode);
+			//发送手机 找回码
+		}
+		return map;
+	}
+	
+	@RequestMapping(value = "yanzhengzhaohuima")
+	@ResponseBody
+	public Object yanzhengzhaohuima(String telPhoneCallBack ,String telPhone ,HttpServletRequest request,HttpServletResponse response){
+		Map<String, Object> map = new HashMap<String, Object>();
+		System.out.println(telPhone+"----"+telPhoneCallBack);
+		byte[] v = redisManager.get((telPhoneCallBack+CALLBACK_REDIS_END_KEY).getBytes());
+		map.put("code", 0);
+		if (v!=null&&v.length>0) {
+			String vm = new String(v);
+			if (!telPhone.equals(vm)) {
+				map.put("code", 1);
+				map.put("mes", "您输入的找回码不正确，请重新输入。");
+			}
+		}else {
+			map.put("code", 2);
+			map.put("mes", "您的找回码已经过期。请重新获取");
+		}
+		return map;
+	}
+	
+	@RequestMapping(value = "saveNewPass")
+	@ResponseBody
+	public Object saveNewPass(String newPass ,String tel, HttpServletRequest request,HttpServletResponse response){
+		Map<String, Object> map = new HashMap<String, Object>();
+		System.out.println(newPass+"<<<<0000000000000000>>>"+tel);
+		map = sysUserService.saveNewPass(newPass,tel);
+		return map;
 	}
 	
 	@RequestMapping(value = "logout")

@@ -43,5 +43,24 @@ public interface ISysUserService {
 	 * @return
 	*/
 	Map<String, Object> deleteSysUser(Integer id);
+
+	/**
+	 * @Title: retrievePass
+	 * @author: linyan
+	 * @Description: 
+	 * @param telPhoneCallBack
+	 * @return
+	*/
+	Map<String, Object> retrievePass(String telPhoneCallBack);
+
+	/**
+	 * @Title: saveNewPass
+	 * @author: linyan
+	 * @Description: 
+	 * @param newPass
+	 * @param tel
+	 * @return
+	*/
+	Map<String, Object> saveNewPass(String newPass, String tel);
 	
 }

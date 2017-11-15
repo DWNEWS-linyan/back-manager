@@ -38,4 +38,13 @@ public interface SysUserMapper {
 	
 	List<SysUser> selectPageSysUser(SysUser sysUser);
 
+	/**
+	 * @Title: selectByUserInfoTel
+	 * @author: linyan
+	 * @Description: 
+	 * @param telPhoneCallBack
+	 * @return
+	*/
+	List<SysUser> selectByUserInfoTel(String telPhoneCallBack);
+
 }

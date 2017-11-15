@@ -31,4 +31,22 @@ public interface IUserInfoService {
 	*/
 	Map<String, Object> addOrEditUserInfo(AddOrEditUserInfoVo userInfoVo);
 
+	/**
+	 * @Title: editFind
+	 * @author: linyan
+	 * @Description: 
+	 * @param id
+	 * @return
+	*/
+	AddOrEditUserInfoVo editFind(Integer id);
+
+	/**
+	 * @Title: deleteUserInfo
+	 * @author: linyan
+	 * @Description: 
+	 * @param id
+	 * @return
+	*/
+	Map<String, Object> deleteUserInfo(Integer id);
+
 }

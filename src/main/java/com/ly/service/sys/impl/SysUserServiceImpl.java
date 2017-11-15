@@ -1,6 +1,7 @@
 package com.ly.service.sys.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,6 +112,48 @@ public class SysUserServiceImpl implements ISysUserService {
 				map.put("code", 0);
 				map.put("mes", "");
 			}
+		return map;
+	}
+
+
+	/* （非 Javadoc）
+	 * @see com.ly.service.sys.ISysUserService#retrievePass(java.lang.String)
+	 */
+	@Override
+	public Map<String, Object> retrievePass(String telPhoneCallBack) {
+		List<SysUser> list = sysUserMapper.selectByUserInfoTel(telPhoneCallBack);
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (list!=null&&list.size()==1) {
+			map.put("code", 0);
+		}else if (list==null||list.size()==0) {
+			map.put("code", 1);
+			map.put("mes", "没有与您输入的手机号相关联的用户，请重新输入.");
+		}else if (list!=null&&list.size()>1) {
+			map.put("code", 2);
+			map.put("mes", "您的手机号绑定了多个用户，请联系管理员处理。");
+		}
+		
+		return map;
+	}
+
+
+	/* （非 Javadoc）
+	 * @see com.ly.service.sys.ISysUserService#saveNewPass(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public Map<String, Object> saveNewPass(String newPass, String tel) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			List<SysUser> list = sysUserMapper.selectByUserInfoTel(tel);
+			SysUser sysUser = list.get(0);
+			sysUser.setUserPass(newPass);
+			sysUserMapper.updateByPrimaryKeySelective(sysUser);
+			map.put("code", 0);
+		} catch (Exception e) {
+			map.put("code", 1);
+			map.put("mes", "给您跪了，改个密码都能出错！！！");
+			e.printStackTrace();
+		}
 		return map;
 	}
 
