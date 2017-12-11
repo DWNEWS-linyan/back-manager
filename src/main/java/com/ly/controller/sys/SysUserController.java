@@ -100,4 +100,17 @@ public class SysUserController {
 		return map;
 	}
 	
+	@RequestMapping(value = "system/updateSysUserPass" ,produces = "application/json;charset=utf-8")
+	@ResponseBody
+	public Object updateSysUserPass(String oldPass,String newPass,String againNewPass,String id){
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			System.out.println("修改密码");
+			System.out.println(id+"==="+oldPass+"=="+newPass+"=="+againNewPass);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
 }
