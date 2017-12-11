@@ -83,7 +83,7 @@ request.setAttribute("basePath", basePath);
 											<div class="portlet-body">
 												<div class="tab-content">
 													<div class="tab-pane active" id="tab_1_1">
-														<form action="#">
+														<form action="#"  class="form-horizontal form-bordered" id="person-info-form-id">
 															<input type="hidden" name="id" value="${userInfo.id }">
 															<div class="row">
 																<div class="col-md-4">
@@ -195,29 +195,29 @@ request.setAttribute("basePath", basePath);
 															</div>
 															<div class="row">
 																<div class="margin-top-10">
-																	<a href="javascript:;" class="btn green"> 确认修改个人信息 </a>
-																	<a href="javascript:;" class="btn default"> 取消 </a>
+																	<button type="submit" class="btn green save-person-info-class">确认修改个人信息</button>
+																	<a href="javascript:;" class="btn default cancel-person-info-class"> 取消 </a>
 																</div>
 															</div>
 														</form>
 													</div>
 													<div class="tab-pane" id="tab_1_2">
-														<form action="#">
+														<form action="#" id="person-pass-form-id">
 															<div class="form-group">
 																<label class="control-label">原密码</label>
-																<input type="password" class="form-control">
+																<input type="password" name="oldPass" class="form-control">
 															</div>
 															<div class="form-group">
 																<label class="control-label">新密码</label>
-																<input type="password" class="form-control">
+																<input type="password" name="newPass" id="newPass" class="form-control">
 															</div>
 															<div class="form-group">
 																<label class="control-label">再次输入新密码</label>
-																<input type="password" class="form-control">
+																<input type="password" name="againNewPass" class="form-control">
 															</div>
 															<div class="margin-top-10">
-																<a href="javascript:;" class="btn green"> 确认修改密码 </a>
-																<a href="javascript:;" class="btn default"> 取消 </a>
+																<button type="submit" class="btn green save-person-pass-class">确认修改密码</button>
+																<a href="javascript:;" class="btn default cancel-person-pass-class"> 取消 </a>
 															</div>
 														</form>
 													</div>
@@ -257,7 +257,7 @@ request.setAttribute("basePath", basePath);
     <script src="<%=basePath %>theme/assets/global/plugins/bootbox/bootbox.min.js" type="text/javascript"></script>
     <script src="<%=basePath %>theme/assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
     <script src="<%=basePath %>theme/script/formvalidateadd.js" type="text/javascript"></script>
-    <script src="<%=basePath %>theme/script/userInfo/form-validate-person-info.js" type="text/javascript"></script>
+    <script src="<%=basePath %>theme/script/userInfo/form-validate-person-info.js?a=5" type="text/javascript"></script>
     <!-- END PAGE LEVEL SCRIPTS -->
     <!-- BEGIN THEME LAYOUT SCRIPTS -->
     <script src="<%=basePath %>theme/assets/layouts/layout/scripts/layout.js" type="text/javascript"></script>
@@ -269,8 +269,6 @@ request.setAttribute("basePath", basePath);
    
    <script type="text/javascript">
    jQuery(document).ready(function(){
-	   
-	   
 	   
 	   if (jQuery().datepicker) {
            $('.date-picker').datepicker({
@@ -287,6 +285,13 @@ request.setAttribute("basePath", basePath);
 			console.info(strc);
 			$(".herder-image").attr("src",strc);
 		}});
+	   
+	   $(".cancel-person-info-class").click(function(){
+		   location.href = location.href ;
+	   });
+	   $(".cancel-person-pass-class").click(function(){
+		   $("#person-pass-form-id")[0].reset();
+	   });
    })
    </script>
   </body>

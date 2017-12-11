@@ -538,28 +538,32 @@ request.setAttribute("basePath", basePath);
 			
 			$("#datatable_ajax_user_info").on("click",".delete-user-info-class",function(){
 				var userInfoId = $(this).data("id");
-				//
-				$.ajax({
-					url:App.domain()+"/userInfo/deleteUserInfo",
-					data:{id:userInfoId},
-	                type:"post",
-					success: function(da){
-						if(da.code==0){
-							var oTable = $('#datatable_ajax_user_info').dataTable();
-							oTable.fnDraw();
-						}else{
-							bootbox.alert(da.mes);
-						}
-						App.unblockUI();
-					},
-					error: function(a,b,c){
-						var status = a.status;
-						if(b=='timeout'){
-							bootbox.alert("不好意思  超时了 ");
-						}else{
-							App.errorAlertStatus(status);
-						}
-						App.unblockUI();
+				bootbox.confirm("确定要删除吗？",function(isTrue){
+					if(isTrue){
+						//
+						$.ajax({
+							url:App.domain()+"/userInfo/deleteUserInfo",
+							data:{id:userInfoId},
+			                type:"post",
+							success: function(da){
+								if(da.code==0){
+									var oTable = $('#datatable_ajax_user_info').dataTable();
+									oTable.fnDraw();
+								}else{
+									bootbox.alert(da.mes);
+								}
+								App.unblockUI();
+							},
+							error: function(a,b,c){
+								var status = a.status;
+								if(b=='timeout'){
+									bootbox.alert("不好意思  超时了 ");
+								}else{
+									App.errorAlertStatus(status);
+								}
+								App.unblockUI();
+							}
+						});
 					}
 				});
 			});
