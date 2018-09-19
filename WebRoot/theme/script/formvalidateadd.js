@@ -11,10 +11,29 @@
 		return this.optional(element) || l>=param;
 	}, jQuery.validator.format("最少{0}个汉字"));
 	
+	
 	jQuery.validator.addMethod("maxMbLength", function(value, element,param) {  
 		var l = value.mb_length();
 		return this.optional(element) || l<=param;
 	}, jQuery.validator.format("最多{0}个汉字"));
+	
+	//判断是否已某个id的值重复
+	jQuery.validator.addMethod("isRepeat", function(value, element,param) {  
+		var fl = true;
+		var params = $(param);
+		if(params.length>0){
+			params.each(function(){
+				if(element!=this){
+					var ival = $(this).val();
+					if(ival==value){
+						fl = false;
+					}
+				}
+			})
+		}
+		return this.optional(element) || fl;
+	}, jQuery.validator.format("重复了"));
+		
 	
 	//只判断 中文  
 	jQuery.validator.addMethod("isChinese",function(value,element){

@@ -39,7 +39,8 @@ request.setAttribute("basePath", basePath);
        <link href="<%=basePath %>theme/assets/layouts/layout/css/themes/darkblue.min.css" rel="stylesheet" type="text/css" id="style_color" />
        <link href="<%=basePath %>theme/assets/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css" />
        <!-- END THEME LAYOUT STYLES -->
-       <link rel="shortcut icon" href="favicon.ico" /> 
+       <link rel="icon" type="image/png" href="<%=basePath %>theme/assets/global/img/favicon32-32.ico" sizes="32x32" />
+		<link rel="icon" type="image/png" href="<%=basePath %>theme/assets/global/img/favicon16-16.ico" sizes="16x16" />
    <style type="text/css">
        .page-header.navbar .menu-toggler.sidebar-toggler{
        	margin:30px 0 0
@@ -85,12 +86,12 @@ request.setAttribute("basePath", basePath);
 
   <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
         <div class="page-wrapper">
-            <c:import url="${basePath }common/header.jsp"></c:import> 
+            <c:import url="/common/header.jsp"></c:import> 
             <div class="clearfix"> </div>
             <div class="page-container">
                 <div class="page-sidebar-wrapper">
                     <div class="page-sidebar navbar-collapse collapse">
-                        <c:import url="${basePath }common/menu.jsp"></c:import>
+                        <c:import url="/common/menu.jsp"></c:import>
                     </div>
                 </div>
                 <div class="page-content-wrapper" >
@@ -161,7 +162,7 @@ request.setAttribute("basePath", basePath);
                     </div>
                 </div>
             </div>
-            <c:import url="${basePath }common/bottom.jsp"></c:import>
+            <c:import url="/common/bottom.jsp"></c:import>
         </div>
         <div class="quick-nav-overlay"></div>
         
@@ -198,9 +199,13 @@ request.setAttribute("basePath", basePath);
                         </div>
                         <div class="form-body" id="formbodyid">
                             <div class="form-group">
-                                <label class="control-label col-md-3" >地址</label>
+                                <label class="control-label col-md-3" >类型</label>
                                 <div class="col-md-6">
-                                   <input class="form-control form-control-inline" name="treeUrl" type="text" value="" placeholder="请输入权限地址" >
+<!--                                    <input class="form-control form-control-inline" name="treeType" type="text" value="" placeholder="请输入权限类型" > -->
+									<select name="treeType" class="form-control" id="treeTypeSelectId">
+										<option value="1" selected="selected">菜单</option>
+										<option value="2">按钮</option>
+									</select>
                                 </div>
                             </div>
                         </div>
@@ -225,24 +230,20 @@ request.setAttribute("basePath", basePath);
                                 <div class="col-md-6">
 <!--                                    <input class="form-control form-control-inline" name="treeType" type="text" value="" placeholder="请输入权限类型" > -->
 									<select name="parentId" class="form-control" id="treeFSelectId">
-										<option value="1" selected="selected">1</option>
-										<option value="2">2</option>
-										<option value="3">3</option>
-										<option value="4">4</option>
-										<option value="5">5</option>
+<!-- 										<option value="1">1</option> -->
+<!-- 										<option value="2">2</option> -->
+<!-- 										<option value="3">3</option> -->
+<!-- 										<option value="4">4</option> -->
+<!-- 										<option value="5">5</option> -->
 									</select>
                                 </div>
                             </div>
                         </div>
                         <div class="form-body" id="formbodyid">
                             <div class="form-group">
-                                <label class="control-label col-md-3" >类型</label>
+                                <label class="control-label col-md-3" >地址</label>
                                 <div class="col-md-6">
-<!--                                    <input class="form-control form-control-inline" name="treeType" type="text" value="" placeholder="请输入权限类型" > -->
-									<select name="treeType" class="form-control" id="treeTypeSelectId">
-										<option value="1" selected="selected">菜单</option>
-										<option value="2">按钮</option>
-									</select>
+                                   <input class="form-control form-control-inline" name="treeUrl" type="text" value="" placeholder="请输入权限地址" >
                                 </div>
                             </div>
                         </div>
@@ -313,6 +314,7 @@ request.setAttribute("basePath", basePath);
 			                '<div class="dd3-content"><i class="'+listObj[i].icon+'"></i>'+listObj[i].title+
 			                '<a href="javascript:;" style="padding: 2px;margin-left:5px;margin-top:-3px;" class="btn default pull-right editTreeClass"><i class="icon-calendar"></i>修改</a>'+
 						    '<a href="javascript:;" style="padding: 2px;margin-left:5px;margin-top:-3px;" class="btn default pull-right deleteTreeClass"><i class="fa fa-bank"></i> 删除</a>'+
+						    '<span style="margin-right: 300px;"  class="pull-right">'+listObj[i].treetype+'</span>'+
 			                '</div>';
 			    	if(listObj[i].children!=null&&listObj[i].children!=""&&listObj[i].children!=undefined&&listObj[i].children.length>0){
 			    		html += shu(listObj[i].children);
@@ -373,6 +375,8 @@ request.setAttribute("basePath", basePath);
 				$("#fenpeiquanxian").modal("show");
 				$("#editsystreeid").val("");
 				$("#treeFDivid").hide();
+				$("input[name='treeUrl']").parent().parent().show() ;
+				$("input[name='treeIcon']").parent().parent().show() ;
 				$("#addOrEditTreeFormId")[0].reset();
 				$("#treeFSelectId").val("");
 			});
@@ -410,6 +414,13 @@ request.setAttribute("basePath", basePath);
 											}
 										}
 										$("#treeFSelectId").html(html);
+										if(1==da.treeType){
+											$("input[name='treeUrl']").parent().parent().show() ;
+											$("input[name='treeIcon']").parent().parent().show() ;
+										}else if(2==da.treeType){
+											$("input[name='treeUrl']").parent().parent().hide() ;
+											$("input[name='treeIcon']").parent().parent().hide() ;
+										}
 										$("#treeFDivid").show();
 									}else{
 										bootbox.alert(da.mes);
@@ -426,6 +437,16 @@ request.setAttribute("basePath", basePath);
 									App.unblockUI();
 								}
 							});
+						}else{
+							$("#treeFSelectId").html("");
+							if(1==da.treeType){
+								$("input[name='treeUrl']").parent().parent().show() ;
+								$("input[name='treeIcon']").parent().parent().show() ;
+							}else if(2==da.treeType){
+								$("input[name='treeUrl']").parent().parent().hide() ;
+								$("input[name='treeIcon']").parent().parent().hide() ;
+							}
+							$("#treeFDivid").hide();
 						}
 						App.unblockUI();
 					},
@@ -514,6 +535,19 @@ request.setAttribute("basePath", basePath);
 						}
 					});
 				}
+			});
+			$("#treeTypeSelectId").change(function(){
+				var typeid = $(this).val();
+				if(typeid == 2){
+					$("input[name='treeUrl']").parent().parent().hide() ;
+					$("input[name='treeIcon']").parent().parent().hide() ;
+					$("input[name='treeUrl']").val("");
+					$("input[name='treeIcon']").val("");
+				}else{
+					$("input[name='treeUrl']").parent().parent().show() ;
+					$("input[name='treeIcon']").parent().parent().show() ;
+				}
+				
 			});
 			$(".addTreeButtonClass").on("click",function(){
 				var treeCnName = $("input[name='chName']").val();

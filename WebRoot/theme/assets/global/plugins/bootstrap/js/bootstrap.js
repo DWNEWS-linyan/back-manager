@@ -782,20 +782,23 @@ if (typeof jQuery === 'undefined') {
     if (e && e.which === 3) return
     $(backdrop).remove()
     $(toggle).each(function () {
-      var $this         = $(this)
-      var $parent       = getParent($this)
-      var relatedTarget = { relatedTarget: this }
+    		var $this         = $(this)
+    	      var $parent       = getParent($this)
+    	      var relatedTarget = { relatedTarget: this }
 
-      if (!$parent.hasClass('open')) return
+    	      if (!$parent.hasClass('open')) return
+    	      //点击下拉菜单的子元素时 不隐藏此下拉菜单 
+    	      if(e && e.type == 'click' && $.contains($parent[0], e.target)){
+    	    	  return ;
+    	      }
+    	      if (e && e.type == 'click' && /input|textarea/i.test(e.target.tagName) && $.contains($parent[0], e.target)) return
 
-      if (e && e.type == 'click' && /input|textarea/i.test(e.target.tagName) && $.contains($parent[0], e.target)) return
+    	      $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
 
-      $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
+    	      if (e.isDefaultPrevented()) return
 
-      if (e.isDefaultPrevented()) return
-
-      $this.attr('aria-expanded', 'false')
-      $parent.removeClass('open').trigger($.Event('hidden.bs.dropdown', relatedTarget))
+    	      $this.attr('aria-expanded', 'false')
+    	      $parent.removeClass('open').trigger($.Event('hidden.bs.dropdown', relatedTarget))
     })
   }
 

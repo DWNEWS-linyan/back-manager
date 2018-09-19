@@ -87,7 +87,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                  <div class="input-group" style="width:100%;">
                  	<input class="form-control form-filter input-sm verification-input-class" type="text" maxlength="4" autocomplete="off" placeholder="请输入您的密码" name="verification" /> 
                  	<span class="input-group-btn" style="width: 40%;">
-                 		<img style="padding:0px;margin:0px;" class=" bn form-control form-filter input-sm col-md-5 verification-img-class" src="<%=basePath %>sys/login/yanZhengMa">
+                 		<img style="padding:0px;margin:0px;" class=" bn form-control form-filter input-sm col-md-5 verification-img-class" src="sys/login/yanZhengMa">
                  	</span>
                  	<span class="input-group-btn flagcheckclass" style="font-size: 22px;color:green;display: none;">
                  		<i class="fa fa-check"></i>

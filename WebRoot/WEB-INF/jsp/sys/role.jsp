@@ -40,7 +40,8 @@ request.setAttribute("basePath", basePath);
         <link href="<%=basePath %>theme/assets/layouts/layout/css/themes/darkblue.min.css" rel="stylesheet" type="text/css" id="style_color" />
         <link href="<%=basePath %>theme/assets/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css" />
         <!-- END THEME LAYOUT STYLES -->
-        <link rel="shortcut icon" href="favicon.ico" /> 
+        <link rel="icon" type="image/png" href="<%=basePath %>theme/assets/global/img/favicon32-32.ico" sizes="32x32" />
+		<link rel="icon" type="image/png" href="<%=basePath %>theme/assets/global/img/favicon16-16.ico" sizes="16x16" />
         <style type="text/css">
         .page-header.navbar .menu-toggler.sidebar-toggler{
         	margin:30px 0 0
@@ -60,12 +61,12 @@ request.setAttribute("basePath", basePath);
 
   <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
         <div class="page-wrapper">
-            <c:import url="${basePath }common/header.jsp"></c:import> 
+            <c:import url="/common/header.jsp"></c:import> 
             <div class="clearfix"> </div>
             <div class="page-container">
                 <div class="page-sidebar-wrapper">
                     <div class="page-sidebar navbar-collapse collapse">
-                        <c:import url="${basePath }common/menu.jsp"></c:import>
+                        <c:import url="/common/menu.jsp"></c:import>
                     </div>
                 </div>
                 <div class="page-content-wrapper" >
@@ -140,7 +141,7 @@ request.setAttribute("basePath", basePath);
  					</div>
                 </div>
             </div>
-            <c:import url="${basePath }common/bottom.jsp"></c:import>
+            <c:import url="/common/bottom.jsp"></c:import>
         </div>
         <div class="quick-nav-overlay"></div>
         

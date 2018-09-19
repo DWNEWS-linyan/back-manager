@@ -7,20 +7,19 @@ $.ajax({
 		for(var i in data){
 			html += '<li class="nav-item lymenu">';
 			var g = data[i];
-			if(g.url==null&&g.chilens.length>0){
+			if((g.url==null||g.url=="")&&g.chilens.length>0){
 				html+='<a href="javascript:;" class="nav-link nav-toggle"><i class="'+g.icon+'"></i><span class="title">'+g.name+'</span><span class="arrow"></span></a>';
 				html+='<ul class="sub-menu">';
 				for(var j in g.chilens){
 					html += '<li class="nav-item lymenu">';
 					var o = g.chilens[j];
-					if(o.url==null&&o.chilens.length>0){
+					if((o.url==null||o.url=="")&&o.chilens.length>0){
 						html+='<a href="javascript:;" class="nav-link nav-toggle"><i class="'+o.icon+'"></i><span class="title">'+o.name+'</span><span class="arrow"></span></a>';
 						html+='<ul class="sub-menu">';
 						for(var q in o.chilens){
-							
 							var p = o.chilens[q];
 							html += '<li class="nav-item lymenu">';
-							html += '<a href="'+ctx+'/'+q.url+'" data-url="'+ctx+'/'+q.url+'" class="nav-link"><i class="'+q.icon+'"></i><span class="title">'+q.name+'</span></a>';
+							html += '<a href="'+ctx+'/'+p.url+'" data-url="'+ctx+'/'+p.url+'" class="nav-link"><i class="'+p.icon+'"></i><span class="title">'+p.name+'</span></a>';
 							html+="</li>";
 						}
 						html+="</ul>";

@@ -30,6 +30,8 @@ request.setAttribute("basePath", basePath);
         <link href="<%=basePath %>theme/assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" type="text/css" />
         <link href="<%=basePath %>theme/assets/global/plugins/jquery-multi-select/css/multi-select.css" rel="stylesheet" type="text/css" />
         <link href="<%=basePath %>theme/assets/global/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css" />
+        <link href="<%=basePath %>theme/assets/global/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+        <link href="<%=basePath %>theme/assets/global/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- END PAGE LEVEL PLUGINS -->
         <!-- BEGIN THEME GLOBAL STYLES -->
         <link href="<%=basePath %>theme/assets/global/css/components.min.css" rel="stylesheet" id="style_components" type="text/css" />
@@ -40,7 +42,8 @@ request.setAttribute("basePath", basePath);
         <link href="<%=basePath %>theme/assets/layouts/layout/css/themes/darkblue.min.css" rel="stylesheet" type="text/css" id="style_color" />
         <link href="<%=basePath %>theme/assets/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css" />
         <!-- END THEME LAYOUT STYLES -->
-        <link rel="shortcut icon" href="favicon.ico" /> 
+        <link rel="icon" type="image/png" href="<%=basePath %>theme/assets/global/img/favicon32-32.ico" sizes="32x32" />
+		<link rel="icon" type="image/png" href="<%=basePath %>theme/assets/global/img/favicon16-16.ico" sizes="16x16" />
         <style type="text/css">
         .page-header.navbar .menu-toggler.sidebar-toggler{
         	margin:30px 0 0
@@ -60,12 +63,12 @@ request.setAttribute("basePath", basePath);
 
   <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
         <div class="page-wrapper">
-            <c:import url="${basePath }common/header.jsp"></c:import> 
+            <c:import url="/common/header.jsp"></c:import> 
             <div class="clearfix"> </div>
             <div class="page-container">
                 <div class="page-sidebar-wrapper">
                     <div class="page-sidebar navbar-collapse collapse">
-                        <c:import url="${basePath }common/menu.jsp"></c:import>
+                        <c:import url="/common/menu.jsp"></c:import>
                     </div>
                 </div>
                 <div class="page-content-wrapper" >
@@ -81,6 +84,19 @@ request.setAttribute("basePath", basePath);
                         </div>
                         <div class="row">
                         	<div class="portlet light portlet-fit portlet-datatable bordered">
+                               <div class="portlet-title">
+				                 <div class="caption">
+			<!-- 	                    <i class="icon-settings font-dark"></i> -->
+				                    <span class="caption-subject font-dark sbold uppercase">系统用户管理</span>
+				                 </div>
+				                 <div class="actions">
+				                    <div class="btn-group btn-group-devided" data-toggle="buttons">
+				                        <label class="btn btn-transparent grey-salsa btn-outline btn-circle btn-sm add-btn-class">
+			                            	添加系统用户
+			                            </label>
+				                    </div>
+				                 </div>
+				               </div>
                                <div class="portlet-body">
                                    <div class="table-container">
                                        <table class="table table-striped table-bordered table-hover table-checkable" id="datatable_ajax_sysuser">
@@ -115,7 +131,7 @@ request.setAttribute("basePath", basePath);
                     </div>
                 </div>
             </div>
-            <c:import url="${basePath }common/bottom.jsp"></c:import>
+            <c:import url="/common/bottom.jsp"></c:import>
         </div>
         <div class="quick-nav-overlay"></div>
         
@@ -142,6 +158,52 @@ request.setAttribute("basePath", basePath);
 		    </div><!-- /.modal-content -->
 		  </div><!-- /.modal-dialog -->
 		</div><!-- /.modal -->
+		
+        <div class="modal fade" id="add-sys-user" role="dialog" style="top:0px;">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title">添加系统用户</h4>
+		      </div>
+		      <div class="modal-body">
+		      <div class="row">
+		      	<div class="col-md-12">
+		      		<form action="#" class="form-horizontal form-bordered add-sys-user-form">
+		      			<div class="form-body" id="formbodyid">
+		      				 <div class="form-group">
+                            	<label class="control-label col-md-3">用户名</label>
+                            	<div class="col-md-7">
+                            		<input class="form-control" name="name" type="text" value="" placeholder="请输入用户名" >
+                            	</div>
+                            </div>
+                            <div class="form-group">
+                            	<label class="control-label col-md-3">密码</label>
+                            	<div class="col-md-7">
+                            		<input class="form-control" name="pass" type="text" value="" placeholder="请输入密码" >
+                            	</div>
+                            </div>
+                            <div class="form-group">
+                            	<label class="control-label col-md-3">用户</label>
+                            	<div class="col-md-7">
+	                            	<select class="form-control select-ajax-class" name="userinfoid">
+	                            		<option>请选择用户</option>
+	                            	</select>
+                            	</div>
+                            </div>
+		      			</div>
+		      			<div class="modal-footer">
+					        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					        <button type="submit" class="btn btn-primary save-sys-user-add">保存</button>
+					      </div>
+		      		</form>
+                </div>
+		      </div>
+		      </div>
+		      
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
         
      <!--[if lt IE 9]>
 <script src="<%=basePath %>theme/assets/global/plugins/respond.min.js"></script>
@@ -163,6 +225,8 @@ request.setAttribute("basePath", basePath);
         <script src="<%=basePath %>theme/assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
         <script src="<%=basePath %>theme/assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js" type="text/javascript"></script>
         <script src="<%=basePath %>theme/assets/global/plugins/jquery-multi-select/js/jquery.multi-select.js" type="text/javascript"></script>
+        <script src="<%=basePath %>theme/assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
+        <script src="<%=basePath %>theme/assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
         <!-- END PAGE LEVEL PLUGINS -->
         <!-- BEGIN THEME GLOBAL SCRIPTS -->
         <script src="<%=basePath %>theme/assets/global/scripts/app.js" type="text/javascript"></script>
@@ -170,6 +234,7 @@ request.setAttribute("basePath", basePath);
         <!-- END THEME GLOBAL SCRIPTS -->
         <!-- BEGIN PAGE LEVEL SCRIPTS -->
          <script src="<%=basePath %>theme/script/sys/table-datatables-ajax-sysUser.js" type="text/javascript"></script>
+         <script src="<%=basePath %>theme/script/sys/form-validate-sys-user.js" type="text/javascript"></script>
         <!-- END PAGE LEVEL SCRIPTS -->
         <!-- BEGIN THEME LAYOUT SCRIPTS -->
         <script src="<%=basePath %>theme/assets/layouts/layout/scripts/layout.js" type="text/javascript"></script>
@@ -181,6 +246,72 @@ request.setAttribute("basePath", basePath);
      <!-- END THEME LAYOUT SCRIPTS -->
      <script>
      	jQuery(document).ready(function() {
+     		$(".add-btn-class").click(function(){
+     			$("#add-sys-user").modal("show");
+     			$(".add-sys-user-form")[0].reset();
+     			$(".add-sys-user-form").find(".has-error").removeClass('has-error');
+     			$(".add-sys-user-form").find(".help-block").remove();
+     			$(".select-ajax-class").val("");
+     			$(".select2-selection__rendered").html("请选择用户");
+     		});
+     		function initSelect2(){
+     			function formatRepo(repo) {
+     	            if (repo.loading) return repo.text;
+
+     	            var markup = "<div class='select2-result-repository clearfix'>" +
+     	                "<div class='select2-result-repository__avatar'><img src='" + repo.picIcon + "' /></div>" +
+     	                "<div class='select2-result-repository__meta'>" +
+     	                "<div class='select2-result-repository__title'>" + repo.name + "</div>";
+
+     	            if (repo.description) {
+     	                markup += "<div class='select2-result-repository__description'>" + repo.description + "</div>";
+     	            }
+
+     	            markup += "<div class='select2-result-repository__statistics'>" +
+     	                "<div class='select2-result-repository__forks'><span class='glyphicon glyphicon-flash'></span> " + repo.sex + " Forks</div>" +
+     	                "<div class='select2-result-repository__stargazers'><span class='glyphicon glyphicon-star'></span> " + repo.age + " Stars</div>" +
+     	                "<div class='select2-result-repository__watchers'><span class='glyphicon glyphicon-eye-open'></span> " + repo.tel + " Watchers</div>" +
+     	                "</div>" +
+     	                "</div></div>";
+
+     	            return markup;
+     	        }
+
+     	        function formatRepoSelection(repo) {
+     	            return repo.name || repo.text;
+     	        }
+
+     	        $(".select-ajax-class").select2({
+     	            width: "off",
+     	            ajax: {
+     	                url: App.domain()+"/system/select2JSONData",
+     	                dataType: 'json',
+     	                delay: 250,
+     	                data: function(params) {
+     	                    return {
+     	                        p: params.term, // search term
+     	                        page: params.page
+     	                    };
+     	                },
+     	                processResults: function(data, page) {
+     	                    // parse the results into the format expected by Select2.
+     	                    // since we are using custom formatting functions we do not need to
+     	                    // alter the remote JSON data
+     	                    return {
+     	                        results: data.data
+     	                    };
+     	                },
+     	                cache: true
+     	            },
+     	            escapeMarkup: function(markup) {
+     	                return markup;
+     	            }, // let our custom formatter work
+     	            minimumInputLength: 1,
+     	            templateResult: formatRepo,
+     	            templateSelection: formatRepoSelection
+     	        });
+     		}
+     		initSelect2();
 			$("#datatable_ajax_sysuser").on("click",".resetpassbtn",function(){
 				var sysuserid = $(this).data("id");
 				bootbox.confirm("你确定要重置密码吗?", function(result) {
@@ -201,64 +332,9 @@ request.setAttribute("basePath", basePath);
 							error: function(a,b,c){
 								var status = a.status;
 								if(b=='timeout'){
-									bootbox.alert("不好意思  <h2>超时了</h2> ");
+									bootbox.alert("不好意思  超时了 ");
 								}else{
-									switch(status)
-									{
-									case 401:
-									  bootbox.alert("不好意思 访问被拒绝401 ");
-									  break;
-									case 403:
-									  bootbox.alert("不好意思 禁止访问403");
-									  break;
-									case 404:
-									  bootbox.alert("不好意思 未找到404");
-									  break;
-									case 405:
-									  bootbox.alert("不好意思 用来访问本页面的HTTP谓词不被允许（方法不被允许）405");
-									  break;
-									case 406:
-									  bootbox.alert("不好意思 客户端浏览器不接受所请求页面的MIME类型 406");
-									  break;
-									case 407:
-									  bootbox.alert("不好意思 要求进行代理身份验证 407");
-									  break;
-									case 412:
-									  bootbox.alert("不好意思 前提条件失败 412");
-									  break;
-									case 413:
-									  bootbox.alert("不好意思 请求实体太大 413");
-									  break;
-									case 414:
-									  bootbox.alert("不好意思 请求URI太长 414");
-									  break;
-									case 415:
-									  bootbox.alert("不好意思 不支持的媒体类型 415");
-									  break;
-									case 416:
-									  bootbox.alert("不好意思 所请求的范围无法满足 416");
-									  break;
-									case 423:
-									  bootbox.alert("不好意思 锁定的错误 423");
-									  break;
-									case 500:
-									  bootbox.alert("不好意思 内部服务器错误 500");
-									  break;
-									case 501:
-									  bootbox.alert("不好意思 页眉值指定了未实现的配置 501");
-									  break;
-									case 502:
-									  bootbox.alert("不好意思 Web服务器用作网关或代理服务器时收到了无效响应 502");
-									  break;
-									case 504:
-									  bootbox.alert("不好意思 网关超时 504");
-									  break;
-									case 505:
-									  bootbox.alert("不好意思 HTTP版本不受支持 504");
-									  break;
-									default:
-									  bootbox.alert("不好意思 出现了 错误 ");
-									}
+									App.errorAlertStatus(status);
 								}
 								App.unblockUI();
 							}
@@ -284,64 +360,9 @@ request.setAttribute("basePath", basePath);
 					error: function(a,b,c){
 						var status = a.status;
 						if(b=='timeout'){
-							bootbox.alert("不好意思  <h2>超时了</h2> ");
+							bootbox.alert("不好意思  超时了 ");
 						}else{
-							switch(status)
-							{
-							case 401:
-							  bootbox.alert("不好意思 访问被拒绝401 ");
-							  break;
-							case 403:
-							  bootbox.alert("不好意思 禁止访问403");
-							  break;
-							case 404:
-							  bootbox.alert("不好意思 未找到404");
-							  break;
-							case 405:
-							  bootbox.alert("不好意思 用来访问本页面的HTTP谓词不被允许（方法不被允许）405");
-							  break;
-							case 406:
-							  bootbox.alert("不好意思 客户端浏览器不接受所请求页面的MIME类型 406");
-							  break;
-							case 407:
-							  bootbox.alert("不好意思 要求进行代理身份验证 407");
-							  break;
-							case 412:
-							  bootbox.alert("不好意思 前提条件失败 412");
-							  break;
-							case 413:
-							  bootbox.alert("不好意思 请求实体太大 413");
-							  break;
-							case 414:
-							  bootbox.alert("不好意思 请求URI太长 414");
-							  break;
-							case 415:
-							  bootbox.alert("不好意思 不支持的媒体类型 415");
-							  break;
-							case 416:
-							  bootbox.alert("不好意思 所请求的范围无法满足 416");
-							  break;
-							case 423:
-							  bootbox.alert("不好意思 锁定的错误 423");
-							  break;
-							case 500:
-							  bootbox.alert("不好意思 内部服务器错误 500");
-							  break;
-							case 501:
-							  bootbox.alert("不好意思 页眉值指定了未实现的配置 501");
-							  break;
-							case 502:
-							  bootbox.alert("不好意思 Web服务器用作网关或代理服务器时收到了无效响应 502");
-							  break;
-							case 504:
-							  bootbox.alert("不好意思 网关超时 504");
-							  break;
-							case 505:
-							  bootbox.alert("不好意思 HTTP版本不受支持 504");
-							  break;
-							default:
-							  bootbox.alert("不好意思 出现了 错误 ");
-							}
+							App.errorAlertStatus(status);
 						}
 						App.unblockUI();
 					}
@@ -380,62 +401,7 @@ request.setAttribute("basePath", basePath);
 						if(b=='timeout'){
 							bootbox.alert("不好意思  超时了 ");
 						}else{
-							switch(status)
-							{
-							case 401:
-							  bootbox.alert("不好意思 访问被拒绝401 ");
-							  break;
-							case 403:
-							  bootbox.alert("不好意思 禁止访问403");
-							  break;
-							case 404:
-							  bootbox.alert("不好意思 未找到404");
-							  break;
-							case 405:
-							  bootbox.alert("不好意思 用来访问本页面的HTTP谓词不被允许（方法不被允许）405");
-							  break;
-							case 406:
-							  bootbox.alert("不好意思 客户端浏览器不接受所请求页面的MIME类型 406");
-							  break;
-							case 407:
-							  bootbox.alert("不好意思 要求进行代理身份验证 407");
-							  break;
-							case 412:
-							  bootbox.alert("不好意思 前提条件失败 412");
-							  break;
-							case 413:
-							  bootbox.alert("不好意思 请求实体太大 413");
-							  break;
-							case 414:
-							  bootbox.alert("不好意思 请求URI太长 414");
-							  break;
-							case 415:
-							  bootbox.alert("不好意思 不支持的媒体类型 415");
-							  break;
-							case 416:
-							  bootbox.alert("不好意思 所请求的范围无法满足 416");
-							  break;
-							case 423:
-							  bootbox.alert("不好意思 锁定的错误 423");
-							  break;
-							case 500:
-							  bootbox.alert("不好意思 内部服务器错误 500");
-							  break;
-							case 501:
-							  bootbox.alert("不好意思 页眉值指定了未实现的配置 501");
-							  break;
-							case 502:
-							  bootbox.alert("不好意思 Web服务器用作网关或代理服务器时收到了无效响应 502");
-							  break;
-							case 504:
-							  bootbox.alert("不好意思 网关超时 504");
-							  break;
-							case 505:
-							  bootbox.alert("不好意思 HTTP版本不受支持 504");
-							  break;
-							default:
-							  bootbox.alert("不好意思 出现了 错误 ");
-							}
+							App.errorAlertStatus(status);
 						}
 						App.unblockUI();
 					}
@@ -461,64 +427,9 @@ request.setAttribute("basePath", basePath);
 							error: function(a,b,c){
 								var status = a.status;
 								if(b=='timeout'){
-									bootbox.alert("不好意思  <h2>超时了</h2> ");
+									bootbox.alert("不好意思  超时了 ");
 								}else{
-									switch(status)
-									{
-									case 401:
-									  bootbox.alert("不好意思 访问被拒绝401 ");
-									  break;
-									case 403:
-									  bootbox.alert("不好意思 禁止访问403");
-									  break;
-									case 404:
-									  bootbox.alert("不好意思 未找到404");
-									  break;
-									case 405:
-									  bootbox.alert("不好意思 用来访问本页面的HTTP谓词不被允许（方法不被允许）405");
-									  break;
-									case 406:
-									  bootbox.alert("不好意思 客户端浏览器不接受所请求页面的MIME类型 406");
-									  break;
-									case 407:
-									  bootbox.alert("不好意思 要求进行代理身份验证 407");
-									  break;
-									case 412:
-									  bootbox.alert("不好意思 前提条件失败 412");
-									  break;
-									case 413:
-									  bootbox.alert("不好意思 请求实体太大 413");
-									  break;
-									case 414:
-									  bootbox.alert("不好意思 请求URI太长 414");
-									  break;
-									case 415:
-									  bootbox.alert("不好意思 不支持的媒体类型 415");
-									  break;
-									case 416:
-									  bootbox.alert("不好意思 所请求的范围无法满足 416");
-									  break;
-									case 423:
-									  bootbox.alert("不好意思 锁定的错误 423");
-									  break;
-									case 500:
-									  bootbox.alert("不好意思 内部服务器错误 500");
-									  break;
-									case 501:
-									  bootbox.alert("不好意思 页眉值指定了未实现的配置 501");
-									  break;
-									case 502:
-									  bootbox.alert("不好意思 Web服务器用作网关或代理服务器时收到了无效响应 502");
-									  break;
-									case 504:
-									  bootbox.alert("不好意思 网关超时 504");
-									  break;
-									case 505:
-									  bootbox.alert("不好意思 HTTP版本不受支持 504");
-									  break;
-									default:
-									  bootbox.alert("不好意思 出现了 错误 ");
-									}
+									App.errorAlertStatus(status);
 								}
 								App.unblockUI();
 							}

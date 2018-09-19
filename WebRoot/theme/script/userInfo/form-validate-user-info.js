@@ -178,7 +178,6 @@ var UserInfo = function(){
 	        },
 
 	        submitHandler: function(form) {
-	        	alert(55);
 	        	App.blockUI({"zIndex":1000});
 	        	var ctx = App.domain();
 	        	var fgg = document.querySelector("#user-info-form-id");

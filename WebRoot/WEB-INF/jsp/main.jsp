@@ -41,7 +41,7 @@ request.setAttribute("basePath", basePath);
 		<link rel="icon" type="image/png" href="<%=basePath %>theme/assets/global/img/favicon16-16.ico" sizes="16x16" />
         <style type="text/css">
         .page-header.navbar .menu-toggler.sidebar-toggler{
-        	margin:30px 0 0
+        	margin:15px 0 0
         }
         .selectMenuClass{
         	background-color:#7f868e !important
@@ -55,12 +55,12 @@ request.setAttribute("basePath", basePath);
 
   <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
         <div class="page-wrapper">
-            <c:import url="${basePath }common/header.jsp"></c:import> 
+            <c:import url="/common/header.jsp"></c:import> 
             <div class="clearfix"> </div>
             <div class="page-container">
                 <div class="page-sidebar-wrapper">
                     <div class="page-sidebar navbar-collapse collapse">
-                        <c:import url="${basePath }common/menu.jsp"></c:import>
+                        <c:import url="/common/menu.jsp"></c:import>
                     </div>
                 </div>
                 <div class="page-content-wrapper" >
@@ -91,7 +91,7 @@ request.setAttribute("basePath", basePath);
                     </div>
                 </div>
             </div>
-            <c:import url="${basePath }common/bottom.jsp"></c:import>
+            <c:import url="/common/bottom.jsp"></c:import>
         </div>
         <div class="quick-nav-overlay"></div>
      <!--[if lt IE 9]>
@@ -127,6 +127,7 @@ request.setAttribute("basePath", basePath);
      	<script src="<%=basePath %>theme/script/stomp/sockjs.min.js" type="text/javascript"></script>
      	<script src="<%=basePath %>theme/script/stomp/stomp.js?v=4" type="text/javascript"></script>
      	<script src="<%=basePath %>theme/script/stomp/stompClient.js" type="text/javascript"></script>
+     	<script src="<%=basePath %>theme/script/stomp/desktop_notify.js" type="text/javascript"></script>
      <!-- END THEME LAYOUT SCRIPTS -->
      <script>
 
