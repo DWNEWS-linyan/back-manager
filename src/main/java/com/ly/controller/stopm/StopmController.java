@@ -7,14 +7,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SendToUser;
+import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ly.service.doproject.IDoProjectService;
+import com.ly.service.email.IEmailService;
+import com.ly.service.notepad.INotepadService;
+import com.ly.service.notice.INoticeService;
+import com.microsoft.schemas.office.x2006.encryption.CTKeyEncryptor.Uri;
 
 /**
 * @ClassName: StopmController
@@ -28,6 +36,47 @@ public class StopmController {
 	
 	@Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
+	
+	@Autowired
+	private INotepadService notepadService;
+	
+	@Autowired
+	private INoticeService noticeService;
+	
+	@Autowired
+	private IEmailService emailService;
+	
+	@Autowired
+	private IDoProjectService doProjectService;
+	
+	
+	@SubscribeMapping(value = "/notepad/{user}")
+    public Object subscribeNotepadTask(@DestinationVariable String user){
+    	Map<String, Object> map = notepadService.selectByUser(user);
+    	return map; 
+    }
+	
+    @SubscribeMapping("/email/{user}")
+    public Object subscribeEmailTask(@DestinationVariable String user) { // assuming this conversion works
+    	Map<String, Object> map = emailService.selectByEmail(user);
+        return map; 
+    }
+    
+    @SubscribeMapping("/notice/{user}")
+    public Object subscribeNoticeTask(@DestinationVariable String user) { // assuming this conversion works
+    	Map<String, Object> map = noticeService.selectByNotice(user);
+    	return map; 
+    }
+    
+    @SubscribeMapping("/project/{user}")
+    public Object subscribeProjectTask(@DestinationVariable String user) { // assuming this conversion works
+    	System.out.println(user+"00000");
+    	Map<String, Object> map = doProjectService.selectByProject(user);
+    	return map; 
+    }
+	
+	
+	
 	
 //	@Autowired
 //	private IStompService stompService;
@@ -78,16 +127,30 @@ public class StopmController {
      */  
     @RequestMapping(value = "/send",produces="application/json;charset=utf-8")
     @ResponseBody
-    public Object send() {  
-    	simpMessagingTemplate.convertAndSend( "/topic/task","{\"aaa\":\"aab\"}"); 
+    public Object send(String type ,String p , String user , String mes , HttpServletRequest request,HttpServletResponse response) {  
+    	System.out.println(type+"<<>>"+user+"<<<>>>"+mes);
+    	 String alk = "{\"aaa\":\"aab\"}";
+//    	 simpMessagingTemplate.send("/topic/notepad/gg",alk); 
+//    	simpMessagingTemplate.convertAndSend( "/topic/notepad/gg",alk); 
+//    	simpMessagingTemplate.convertAndSend( "/topic/notepad/gg","{\""+type+"\":\""+mes+"\"}"); 
+    	 Map<String, Object> map = doProjectService.selectByProject(user);
+    	 Integer size = (Integer)map.get("size");
+    	 map.put("size", size+1);
+    	simpMessagingTemplate.convertAndSend( "/"+p+"/"+type+"/"+user,map); 
         return "I am a msg from SubscribeMapping('/macro').";  
     }  
-//	
-//    @SubscribeMapping(value = "/topic/task")
+	
+//    @SubscribeMapping(value = "/bs/task")
 //    public Object subscribeTopicTask(){
-//    	
-//    	return "";
+//    	System.out.println("=================================sssss========================");
+//    	return ""; 
 //    }
-    
+//    @SubscribeMapping("/bs/{user}")
+//    public String getUser(@DestinationVariable String user) { // assuming this conversion works
+//        String alk = "{\"aaa\":\"aab\"}";
+//        
+//        System.out.println("======================================="+user);
+//        return alk;
+//    }
     
 }

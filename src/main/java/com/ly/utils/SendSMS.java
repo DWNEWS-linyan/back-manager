@@ -66,7 +66,7 @@ public class SendSMS {
 		list.add(13161983141L);
 //		Map<String, Object> map = sendSms(list,"【酒频道】领酒中心 验证码：123456，请保管好您的验证码。");
 		try {
-			Map<String, String> map = smsMt("13161983141", "【酒频道】领酒中心 验证码：123456，请保管好您的验证码。", "");
+			Map<String, String> map = smsMt("13161983141", "【Mr.Lin】您的现汇买入价为"+132);
 			System.out.println(map.get("code"));
 			System.out.println(map.get("msg"));
 		} catch (IOException e) {
@@ -74,14 +74,16 @@ public class SendSMS {
 		}
 	}
 	
-	public static Map<String,String> smsMt(String mobiles,String content,String i) throws IOException {
+	public static Map<String,String> smsMt(String mobiles,String content) throws IOException {
 		String sign="";
 		// 创建StringBuffer对象用来操作字符串
 		StringBuffer sb = new StringBuffer("http://web.cr6868.com/asmx/smsservice.aspx?");
 		// 向StringBuffer追加用户名
-		sb.append("name=13161983141");
+		sb.append("name=ly");
+//		sb.append("name=13161983141");
 		// 向StringBuffer追加密码（登陆网页版，在管理中心--基本资料--接口密码，是28位的）
-		sb.append("&pwd=8AA502530DDA5887E270D6CB08DA");
+		sb.append("&pwd=103360762570B8C97CDDF7E6D9BB");
+//		sb.append("&pwd=8AA502530DDA5887E270D6CB08DA");
 		// 向StringBuffer追加手机号码
 		sb.append("&mobile=");
 		sb.append(mobiles);

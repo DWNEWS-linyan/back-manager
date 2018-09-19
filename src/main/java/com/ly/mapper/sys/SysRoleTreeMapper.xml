@@ -23,6 +23,10 @@
     delete from sys_role_tree
     where sys_role_id = #{roleid,jdbcType=INTEGER}
   </delete>
+  <delete id="deleteBySysTree" parameterType="java.lang.Integer">
+    delete from sys_role_tree
+    where sys_tree_id = #{id,jdbcType=INTEGER}
+  </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.ly.po.SysRoleTree" useGeneratedKeys="true">
     insert into sys_role_tree (sys_role_id, sys_tree_id)
     values (#{sysRoleId,jdbcType=INTEGER}, #{sysTreeId,jdbcType=INTEGER})

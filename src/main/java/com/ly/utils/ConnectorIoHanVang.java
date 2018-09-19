@@ -30,7 +30,6 @@ public class  ConnectorIoHanVang{
 		IoConnector connector;
 		 IoHandler ioHandler = new MyIoHandlerAdapter();
 		connector = new NioSocketConnector();
-
 	    connector.getSessionConfig().setReaderIdleTime(60);
 
 	    connector.getFilterChain().addLast("codec", new ProtocolCodecFilter(new FaceIdProtocolCodecFactory("GBK", false, false)));

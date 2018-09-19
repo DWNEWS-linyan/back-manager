@@ -10,6 +10,7 @@ import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -35,11 +36,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ly.po.SysTree;
 import com.ly.po.SysUser;
 import com.ly.service.sys.ISysUserService;
 import com.ly.service.sys.IUserInfoService;
+import com.ly.utils.Common;
 import com.ly.utils.MyProperties;
+import com.ly.utils.TreesConstants;
 import com.ly.vo.AddOrEditUserInfoVo;
 
 /**
@@ -66,16 +71,16 @@ public class SysLoginController {
 	
 	
 	@RequestMapping(value="login")
-	public String login(String userName , String userPass , String remenber , HttpServletRequest request,HttpServletResponse response,Model model){
+	public String login(String userName , String userPass , String remenber , HttpServletRequest request,HttpServletResponse response,Model model , RedirectAttributes redirectAttributes ){
 		System.out.println("remenber:" + userName);
 		System.out.println("userPass:" + userPass);
 		System.out.println("remenber:" + remenber);
 //		SecurityUtils.getSubject().login(new UsernamePasswordToken(userName, userPass));
-		String url = "index";
+		String url = "redirect:/sys/index";
 		try {
 			String verification = request.getParameter("verification"); //验证码
 			if (verification==null||verification.trim().equals("")) {
-				request.setAttribute("mes", "请输入验证码");
+				redirectAttributes.addAttribute("mes", "请输入验证码");
 				return url;
 			}
 			String verLower = verification.toLowerCase();
@@ -85,16 +90,16 @@ public class SysLoginController {
 			byte[] redisVeri = redisManager.get(sessionId.getBytes());
 			
 			if (redisVeri==null||redisVeri.length<1) {
-				request.setAttribute("mes", "验证码已过期");
+				redirectAttributes.addAttribute("mes", "验证码已过期");
 				return url;
 			}
 			String redisVerifi = new String(redisVeri).toLowerCase();
 			if (!verLower.equals(redisVerifi)) {
-				request.setAttribute("mes", "您输入的验证码不正确");
+				redirectAttributes.addAttribute("mes", "您输入的验证码不正确");
 				return url;
 			}
 		} catch (Exception e) {
-			request.setAttribute("mes", "您输入的用户名或密码不正确.");
+			redirectAttributes.addAttribute("mes", "您输入的用户名或密码不正确.");
 			return url;
 		}
 		
@@ -124,33 +129,63 @@ public class SysLoginController {
 			}
 			HttpSession session = request.getSession();
 			SysUser sysUser = (SysUser)session.getAttribute(MyProperties.get("SESSION_USER_KEY"));
+			List<SysTree> listTrees = Common.getSysTrees();
+			Boolean isNotepad = false;
+			Boolean isEmail = false;
+			Boolean isNotice = false;
+			Boolean isProject = false;
+			for (SysTree sysTree : listTrees) {
+				switch (sysTree.getEnName()) {
+					case TreesConstants.TREE_EMAIL:
+						isEmail = true;
+						break;
+					case TreesConstants.TREE_NOTEPAD:
+						isNotepad = true;
+						break;
+					case TreesConstants.TREE_NOTICE:
+						isNotice = true;
+						break;
+					case TreesConstants.TREE_PROJECT:
+						isProject = true;
+						break;
+					default:
+						break;
+				}
+			}
 			Integer userInfoId = Integer.valueOf(sysUser.getUserId());
 			AddOrEditUserInfoVo userInfo = userInfoService.editFind(userInfoId);
+			session.setAttribute("loginName", sysUser.getUserName());
 			String picIcon = userInfo.getPicIcon();
+			session.setAttribute("isProject", isProject);
+			session.setAttribute("isNotice", isNotice);
+			session.setAttribute("isEmail", isEmail);
+			session.setAttribute("isNotepad", isNotepad);
 			session.setAttribute("picIcon", picIcon);
+			session.setAttribute("infoName", userInfo.getName());
+			System.out.println(session.getId());
 			System.out.println("对用户[" + userName + "]进行登录验证..验证通过");
 		} catch (UnknownAccountException a) {
 			System.out.println("对用户[" + userName + "]进行登录验证..验证未通过,未知账户");
-			request.setAttribute("mes", "未知账户");
+			redirectAttributes.addAttribute("mes", "未知账户");
 		} catch (IncorrectCredentialsException a) {
 			System.out.println("对用户[" + userName + "]进行登录验证..验证未通过,错误的凭证");
-			request.setAttribute("mes", "密码不正确");
+			redirectAttributes.addAttribute("mes", "密码不正确");
 		} catch (LockedAccountException a) {
 			System.out.println("对用户[" + userName + "]进行登录验证..验证未通过,账户已锁定");
-			request.setAttribute("mes", "账户已锁定");
+			redirectAttributes.addAttribute("mes", "账户已锁定");
 		} catch (ExcessiveAttemptsException a) {
 			System.out.println("对用户[" + userName + "]进行登录验证..验证未通过,错误次数过多");
-			request.setAttribute("mes", "用户名或密码错误次数过多");
+			redirectAttributes.addAttribute("mes", "用户名或密码错误次数过多");
 		} catch (AuthenticationException a) {
 			// 通过处理Shiro的运行时AuthenticationException就可以控制用户登录失败或密码错误时的情景
 			System.out.println("对用户[" + userName + "]进行登录验证..验证未通过,堆栈轨迹如下");
 			a.printStackTrace();
-			request.setAttribute("mes", "用户名或密码不正确");
+			redirectAttributes.addAttribute("mes", "用户名或密码不正确");
 		} catch (IndexOutOfBoundsException e) {
-			request.setAttribute("mes", "密码不正确");
+			redirectAttributes.addAttribute("mes", "密码不正确");
 			e.printStackTrace();
 		} catch (Exception e) {
-			request.setAttribute("mes", "用户名或密码不正确");
+			redirectAttributes.addAttribute("mes", "用户名或密码不正确");
 			e.printStackTrace();
 		}
 		return url;
@@ -266,8 +301,10 @@ public class SysLoginController {
 				g.drawString(ctmp, 15*i+20, 20); 
 			}
              
-        }  
-        redisManager.set(request.getSession().getId().getBytes(), sRand.getBytes(), 3000);
+        }
+        String sessionId = request.getSession().getId();
+        System.out.println(sessionId);
+        redisManager.set(sessionId.getBytes(), sRand.getBytes(), 3000);
         g.dispose();    //释放g所占用的系统资源  
         try {
         	 ImageIO.write(image,"JPEG",response.getOutputStream()); //输出图片
@@ -299,6 +336,7 @@ public class SysLoginController {
 			String sesseionId = null ;
 			try {
 				sesseionId = request.getSession().getId();
+				System.out.println(sesseionId);
 				byte[] redisVeri = redisManager.get(sesseionId.getBytes());
 				if (redisVeri == null || redisVeri.length<1) {
 					map.put("mes", "验证码已过期，请刷新");
@@ -346,7 +384,7 @@ public class SysLoginController {
     
 	@RequestMapping(value = "index")
 	public String index(String mes,Model model,HttpServletRequest request){
-		SecurityUtils.getSubject().logout();
+//		SecurityUtils.getSubject().logout();
 		model.addAttribute("mes", mes);
 		Cookie[] cookies = request.getCookies();
 		String userName = "";

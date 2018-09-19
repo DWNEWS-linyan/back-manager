@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ly.mapper.sys.SysRoleTreeMapper;
 import com.ly.mapper.sys.SysTreeMapper;
 import com.ly.po.SysRole;
 import com.ly.po.SysTree;
@@ -34,6 +35,8 @@ public class SysTreeServiceImpl implements ISysTreeService {
 	@Autowired
 	private SysTreeMapper sysTreeMapper;
 	
+	@Autowired
+	private SysRoleTreeMapper sysRoleTreeMapper;
 	
 	/* （非 Javadoc）
 	 * @see com.ly.service.sys.ISysTreeService#selectTreeByRoleIds(java.util.List)
@@ -138,6 +141,7 @@ public class SysTreeServiceImpl implements ISysTreeService {
 				map.put("title", sysTree.getChName());
 				map.put("icon", sysTree.getTreeIcon());
 				map.put("order", sysTree.getTreeOrder());
+				map.put("treetype", sysTree.getTreeType()!=null?(sysTree.getTreeType().equals("1")?"菜单<i class=\"fa fa-list\"></i>":"按钮<i class=\"fa fa-hand-o-up\"></i>"):"");
 				map.put("children", shu(listTrees,sysTree.getId()));
 				list.add(map);
 			}
@@ -240,7 +244,24 @@ public class SysTreeServiceImpl implements ISysTreeService {
 	public Map<String, Object> deleteTree(Integer id) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		sysTreeMapper.deleteByPrimaryKey(id);
+		sysRoleTreeMapper.deleteBySysTree(id);
+		List<SysTree> list = digui(sysTreeMapper.selectAllTree(), id);
+		for (SysTree sysTree : list) {
+			sysTreeMapper.deleteByPrimaryKey(sysTree.getId());
+			sysRoleTreeMapper.deleteBySysTree(sysTree.getId());
+		}
 		return map;
+	}
+	
+	public List<SysTree> digui(List<SysTree> list , Integer pid){
+		List<SysTree> reList = new ArrayList<SysTree>();
+		for (SysTree sysTree : list) {
+			if(sysTree.getParentId() == pid){
+				reList.add(sysTree);
+				reList.addAll(digui(list, sysTree.getId()));
+			}
+		}
+		return reList;
 	}
 	
 	

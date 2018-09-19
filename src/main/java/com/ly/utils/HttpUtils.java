@@ -34,8 +34,9 @@ public class HttpUtils {
 			httpUrlConnection.setDoInput(true);
 			httpUrlConnection.setUseCaches(false); 
 			httpUrlConnection.setRequestMethod("POST");
+			httpUrlConnection.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
 			DataOutputStream  dataOutputStream = new DataOutputStream(httpUrlConnection.getOutputStream());
-//			dataOutputStream.write("".getBytes("utf-8"));
+			dataOutputStream.write(content.getBytes("utf-8"));
 			dataOutputStream.flush();
 			dataOutputStream.close();
 			StringBuffer stringBuffer = new StringBuffer();
@@ -89,7 +90,7 @@ public class HttpUtils {
 			  
 			 // 设定传送的内容类型是可序列化的java对象   
 			 // (如果不设此项,在传送序列化对象时,当WEB服务默认的不是这种类型时可能抛java.io.EOFException)   
-//			 httpUrlConnection.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+			 httpUrlConnection.setRequestProperty("Content-type", "multipart/form-data");
 			  
 			 // 设定请求的方法为"POST"，默认是GET   
 //			 httpUrlConnection.setRequestMethod("GET");   
@@ -119,16 +120,19 @@ public class HttpUtils {
 		}
 	}
 	
-	public static void get(){
+	public static String get(String uString ){
 		try {
-			URL url = new URL("http://general.dwnews.net/index.php?r=api/GetUserApp&uid=497");   
-			Proxy proxys = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("172.23.215.251", 80));
-			URLConnection rulConnection = url.openConnection(proxys);  
+//			URL url = new URL("http://13.250.159.210:8089/onCreateIkey.do?url="+uString);   
+//			Proxy proxys = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("172.23.215.251", 80));
+//			URLConnection rulConnection = url.openConnection(proxys);  
+			URL url = new URL(uString);
+			URLConnection rulConnection = url.openConnection();  
 			        // 此处的urlConnection对象实际上是根据URL的   
 			          // 请求协议(此处是http)生成的URLConnection类   
 			          // 的子类HttpURLConnection,故此处最好将其转化   
 			          // 为HttpURLConnection类型的对象,以便用到   
 			          // HttpURLConnection更多的API.如下:   
+			rulConnection.setRequestProperty("Accept-Charset", "UTF-8");
 			HttpURLConnection httpUrlConnection = (HttpURLConnection) rulConnection;
 			
 			// 设置是否向httpUrlConnection输出，因为这个是post请求，参数要放在   
@@ -155,7 +159,7 @@ public class HttpUtils {
 //	           dataOutputStream.close();
 	           StringBuffer stringBuffer = new StringBuffer();
 	   			InputStream inputStream = httpUrlConnection.getInputStream();
-	               BufferedReader  bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+	               BufferedReader  bufferedReader = new BufferedReader(new InputStreamReader(inputStream,"utf-8"));
 	               int code = httpUrlConnection.getResponseCode(); 
 	               System.err.println(code);
 	               if (HttpsURLConnection.HTTP_OK == code){
@@ -166,14 +170,34 @@ public class HttpUtils {
 	                       temp = bufferedReader.readLine(); 
 	    	            }
 	               }
-	               System.out.println(stringBuffer);
+//	               System.out.println(stringBuffer);
+	               return stringBuffer.toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return "";
 	}
 	
 	
 	public static void main(String[] args) {
-		get();
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("mn", 653.3);
+//		ObjectMapper objectMapper = new ObjectMapper();
+//		try {
+//			String par = objectMapper.writeValueAsString(map);
+//			Map<String, Object> re = post("http://182.92.213.49/liuliu/cmbc/editCMB","mn=653.3&num=5");
+//			System.out.println(re.get("code"));
+//			System.out.println(re);
+//		} catch (JsonProcessingException e) {
+//			
+//			e.printStackTrace();
+//		}
+		
+		for (int i = 0; i < 1; i++) {
+			get("a"+i+"g");
+			
+		}
+		
+		
 	}
 }

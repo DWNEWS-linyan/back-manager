@@ -19,6 +19,8 @@ public class UserInfo implements Serializable {
 
     private String tel;
 
+    private String eMail;
+
     private String nations;
 
     private String height;
@@ -99,6 +101,14 @@ public class UserInfo implements Serializable {
 
     public void setTel(String tel) {
         this.tel = tel == null ? null : tel.trim();
+    }
+
+    public String geteMail() {
+        return eMail;
+    }
+
+    public void seteMail(String eMail) {
+        this.eMail = eMail == null ? null : eMail.trim();
     }
 
     public String getNations() {
@@ -185,6 +195,7 @@ public class UserInfo implements Serializable {
             && (this.getBirthday() == null ? other.getBirthday() == null : this.getBirthday().equals(other.getBirthday()))
             && (this.getPicIcon() == null ? other.getPicIcon() == null : this.getPicIcon().equals(other.getPicIcon()))
             && (this.getTel() == null ? other.getTel() == null : this.getTel().equals(other.getTel()))
+            && (this.geteMail() == null ? other.geteMail() == null : this.geteMail().equals(other.geteMail()))
             && (this.getNations() == null ? other.getNations() == null : this.getNations().equals(other.getNations()))
             && (this.getHeight() == null ? other.getHeight() == null : this.getHeight().equals(other.getHeight()))
             && (this.getWeight() == null ? other.getWeight() == null : this.getWeight().equals(other.getWeight()))
@@ -207,6 +218,7 @@ public class UserInfo implements Serializable {
         result = prime * result + ((getBirthday() == null) ? 0 : getBirthday().hashCode());
         result = prime * result + ((getPicIcon() == null) ? 0 : getPicIcon().hashCode());
         result = prime * result + ((getTel() == null) ? 0 : getTel().hashCode());
+        result = prime * result + ((geteMail() == null) ? 0 : geteMail().hashCode());
         result = prime * result + ((getNations() == null) ? 0 : getNations().hashCode());
         result = prime * result + ((getHeight() == null) ? 0 : getHeight().hashCode());
         result = prime * result + ((getWeight() == null) ? 0 : getWeight().hashCode());
@@ -232,6 +244,7 @@ public class UserInfo implements Serializable {
         sb.append(", birthday=").append(birthday);
         sb.append(", picIcon=").append(picIcon);
         sb.append(", tel=").append(tel);
+        sb.append(", eMail=").append(eMail);
         sb.append(", nations=").append(nations);
         sb.append(", height=").append(height);
         sb.append(", weight=").append(weight);

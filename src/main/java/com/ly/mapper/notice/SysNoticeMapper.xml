@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.mapper.notice.SysNoticeMapper">
+  <resultMap id="BaseResultMap" type="com.ly.po.SysNotice">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="publish_time" jdbcType="TIMESTAMP" property="publishTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="data" jdbcType="VARCHAR" property="data" />
+    <result column="simple_broker_prefix" jdbcType="VARCHAR" property="simpleBrokerPrefix" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.ly.po.SysNotice">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, title, publish_time, create_time, create_user, status, url, data, simple_broker_prefix, 
+    type
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sys_notice
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByUserInfoId" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select * from sys_notice n  join sys_notice_target t on n.id = t.notice_id  where t.target = #{userId,jdbcType=INTEGER} and t.`type` = 1 
+  </select>
+  <select id="selectByGroupId" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select * from sys_notice n  join sys_notice_target t on n.id = t.notice_id  where t.target = #{groupId,jdbcType=INTEGER} and t.`type` = 2 
+  </select>
+  <select id="noticeTableAjaxPage"  parameterType="java.util.Map" resultMap="ResultMapWithBLOBs">
+    select n.* from  sys_notice n left join sys_notice_files f on n.id = f.notice_id left join sys_notice_target t on n.id= t.notice_id 
+    <where>
+    	<if test="noticeId != null and noticeId != ''">
+    		and n.id = #{noticeId}
+    	</if> 
+    	<if test="noticeTitle != null and noticeTitle != ''">
+    		and n.title like '%${noticeTitle}%' 
+    	</if>
+    </where>
+    group by n.id
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_notice
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.ly.po.SysNotice" useGeneratedKeys="true">
+    insert into sys_notice (title, publish_time, create_time, 
+      create_user, status, url, 
+      data, simple_broker_prefix, type, 
+      content)
+    values (#{title,jdbcType=VARCHAR}, #{publishTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUser,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, 
+      #{data,jdbcType=VARCHAR}, #{simpleBrokerPrefix,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.ly.po.SysNotice" useGeneratedKeys="true">
+    insert into sys_notice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        title,
+      </if>
+      <if test="publishTime != null">
+        publish_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="data != null">
+        data,
+      </if>
+      <if test="simpleBrokerPrefix != null">
+        simple_broker_prefix,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="publishTime != null">
+        #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="data != null">
+        #{data,jdbcType=VARCHAR},
+      </if>
+      <if test="simpleBrokerPrefix != null">
+        #{simpleBrokerPrefix,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ly.po.SysNotice">
+    update sys_notice
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="publishTime != null">
+        publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="data != null">
+        data = #{data,jdbcType=VARCHAR},
+      </if>
+      <if test="simpleBrokerPrefix != null">
+        simple_broker_prefix = #{simpleBrokerPrefix,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ly.po.SysNotice">
+    update sys_notice
+    set title = #{title,jdbcType=VARCHAR},
+      publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      url = #{url,jdbcType=VARCHAR},
+      data = #{data,jdbcType=VARCHAR},
+      simple_broker_prefix = #{simpleBrokerPrefix,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ly.po.SysNotice">
+    update sys_notice
+    set title = #{title,jdbcType=VARCHAR},
+      publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      url = #{url,jdbcType=VARCHAR},
+      data = #{data,jdbcType=VARCHAR},
+      simple_broker_prefix = #{simpleBrokerPrefix,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

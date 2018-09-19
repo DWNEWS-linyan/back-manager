@@ -34,7 +34,6 @@ public class ShiorUserServiceImpl implements IShiorUserService {
 	@Autowired
 	private ISysRoleService sysRoleService;
 	
-	
 	/* （非 Javadoc）
 	 * @see com.ly.service.shior.IShiorUserService#selectSysUserByUserName()
 	 */

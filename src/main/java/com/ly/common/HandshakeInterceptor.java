@@ -39,7 +39,7 @@ public class HandshakeInterceptor extends HttpSessionHandshakeInterceptor{
 			ByteArrayOutputStream baos=new ByteArrayOutputStream();  
 			os.write(baos.toByteArray());  
 			String str = baos.toString(); 
-			System.out.println(str);
+			System.out.println(str+"===");
 		} catch (IOException e) {
 			
 			e.printStackTrace();
@@ -67,7 +67,7 @@ public class HandshakeInterceptor extends HttpSessionHandshakeInterceptor{
 			ByteArrayOutputStream baos=new ByteArrayOutputStream();  
 			os.write(baos.toByteArray());  
 			String str = baos.toString(); 
-			System.out.println(str);
+			System.out.println(str+"=");
 		} catch (IOException e) {
 			
 			e.printStackTrace();

@@ -27,4 +27,27 @@ public interface UserInfoMapper {
 	*/
     
     List<SysRole> userInfoTableAjaxPage(Map<String, Object> pare);
+
+	/**
+	 * @Title: selectByObject
+	 * @author: linyan
+	 * @Description: 
+	 * @date 2018年1月11日 上午10:59:04
+	 * @param userInfo
+	 * @return
+	*/
+	List<UserInfo> selectByObject(UserInfo userInfo);
+
+	
+	/**
+	 * @Title: selectLikeByObject
+	 * @author: linyan
+	 * @Description: 
+	 * @date 2018年1月11日 下午2:47:21
+	 * @param userInfo
+	 * @return
+	 */
+	List<UserInfo> selectLikeByObject(UserInfo userInfo);
+	
+	List<UserInfo> selectBySysUser(Map<String, Object> map);
 }

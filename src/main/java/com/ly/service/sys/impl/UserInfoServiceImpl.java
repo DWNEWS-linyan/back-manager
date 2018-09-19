@@ -158,4 +158,12 @@ public class UserInfoServiceImpl implements IUserInfoService {
 		return map;
 	}
 
+	/* （非 Javadoc）
+	 * @see com.ly.service.sys.IUserInfoService#selectById(java.lang.Integer)
+	 */
+	@Override
+	public UserInfo selectById(Integer id) {
+		return userInfoMapper.selectByPrimaryKey(id);
+	}
+
 }

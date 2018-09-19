@@ -2,8 +2,10 @@ package com.ly.service.sys.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -162,9 +164,13 @@ public class SysRoleServiceImpl implements ISysRoleService {
 	@Override
 	public Map<String, Object> editRoleTree(String[] treeids, String roleid) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		Set<String> treeidSet = new HashSet<String>();
+		for (String string : treeids) {
+			treeidSet.add(string);
+		}
 		if (roleid!=null&&roleid!=""&&!roleid.trim().equals("")&&!roleid.trim().equals("0")&&treeids!=null&&treeids.length>0) {
 			sysRoleTreeMapper.deleteByRoleId(Integer.valueOf(roleid));
-			for (String string : treeids) {
+			for (String string : treeidSet) {
 				SysRoleTree sysRoleTree = new SysRoleTree();
 				sysRoleTree.setSysRoleId(Integer.valueOf(roleid));
 				sysRoleTree.setSysTreeId(Integer.valueOf(string));
@@ -186,6 +192,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
 	public Map<String, Object> deleteRoleObject(Integer id) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (id!=null&&id!=0) {
+			sysRoleTreeMapper.deleteByRoleId(id);
 			sysRoleMapper.deleteByPrimaryKey(id);
 			sysUserRoleMapper.deleteBySysRole(id);
 		}else {

@@ -10,6 +10,7 @@
     <result column="birthday" jdbcType="VARCHAR" property="birthday" />
     <result column="pic_icon" jdbcType="VARCHAR" property="picIcon" />
     <result column="tel" jdbcType="VARCHAR" property="tel" />
+    <result column="e_mail" jdbcType="VARCHAR" property="eMail" />
     <result column="nations" jdbcType="VARCHAR" property="nations" />
     <result column="height" jdbcType="VARCHAR" property="height" />
     <result column="weight" jdbcType="VARCHAR" property="weight" />
@@ -20,14 +21,156 @@
     <result column="status" jdbcType="VARCHAR" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, sex, age, id_car, birthday, pic_icon, tel, nations, height, weight, education, 
-    graduate, specialty, graduation, status
+    id, name, sex, age, id_car, birthday, pic_icon, tel, e_mail, nations, height, weight, 
+    education, graduate, specialty, graduation, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from user_info
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  
+  <select id="selectBySysUser" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select f.* from user_info f left join sys_user u on f.id = u.user_id 
+    <where>
+    	<if test="sysUserId != null and sysUserId != '' and sysUserId != 0">
+    		and u.id = #{sysUserId}
+    	</if>
+    	<if test="name != null and name != ''">
+    		and f.name like '%${name}%' 
+    	</if>
+    	<if test="age != null and age != ''">
+    		and f.age = #{age}
+    	</if>
+    	<if test="tel != null and tel != ''">
+    		and f.tel = #{tel}
+    	</if>
+    	<if test="idcar != null and idcar != ''">
+    		and f.idcar = #{idcar}
+    	</if>
+    	<if test="birthday != null and birthday != ''">
+    		and f.birthday = #{birthday}
+    	</if>
+    	<if test="left != null and left != '' and left == 1 ">
+    		and u.id is null
+    	</if>
+   	</where>
+  </select>
+  
+  <select id="selectLikeByObject"  parameterType="com.ly.po.UserInfo" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_info
+    <where>
+    	<if test="id != null and id != '' and id != 0">
+    		and id = #{id}
+    	</if>
+    	<if test="sex != null and sex != ''">
+    		and sex = #{sex}
+    	</if>
+    	<if test="name != null and name != ''">
+    		and name like '%${name}%' 
+    	</if>
+    	<if test="age != null and age != '' and age != 0">
+    		and age = #{age}
+    	</if>
+    	<if test="idCar != null and idCar != ''">
+    		and id_car = #{idCar}
+    	</if>
+    	<if test="birthday != null and birthday != ''">
+    		and birthday = #{birthday}
+    	</if>
+    	<if test="picIcon != null and picIcon != ''">
+    		and pic_icon = #{picIcon}
+    	</if>
+    	<if test="tel != null and tel != ''">
+    		and tel like '${tel}%' 
+    	</if>
+    	<if test="nations != null and nations != ''">
+    		and nations = #{nations}
+    	</if>
+    	<if test="height != null and height != ''">
+    		and height = #{height}
+    	</if>
+    	<if test="weight != null and weight != ''">
+    		and weight = #{weight}
+    	</if>
+    	<if test="education != null and education != ''">
+    		and education = #{education}
+    	</if>
+    	<if test="graduate != null and graduate != ''">
+    		and graduate = #{graduate}
+    	</if>
+    	<if test="specialty != null and specialty != ''">
+    		and specialty = #{specialty}
+    	</if>
+    	<if test="graduation != null and graduation != ''">
+    		and graduation = #{graduation}
+    	</if>
+    	<if test="status != null and status != ''">
+    		and status = #{status}
+    	</if>
+    </where>
+  </select>
+  
+  
+  
+  <select id="selectByObject"  parameterType="com.ly.po.UserInfo" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_info
+    <where>
+    	<if test="id != null and id != '' and id != 0">
+    		and id = #{id}
+    	</if>
+    	<if test="sex != null and sex != ''">
+    		and sex = #{sex}
+    	</if>
+    	<if test="name != null and name != ''">
+    		and name = #{name}
+    	</if>
+    	<if test="age != null and age != '' and age != 0">
+    		and age = #{age}
+    	</if>
+    	<if test="idCar != null and idCar != ''">
+    		and id_car = #{idCar}
+    	</if>
+    	<if test="birthday != null and birthday != ''">
+    		and birthday = #{birthday}
+    	</if>
+    	<if test="picIcon != null and picIcon != ''">
+    		and pic_icon = #{picIcon}
+    	</if>
+    	<if test="tel != null and tel != ''">
+    		and tel = #{tel}
+    	</if>
+    	<if test="nations != null and nations != ''">
+    		and nations = #{nations}
+    	</if>
+    	<if test="height != null and height != ''">
+    		and height = #{height}
+    	</if>
+    	<if test="weight != null and weight != ''">
+    		and weight = #{weight}
+    	</if>
+    	<if test="education != null and education != ''">
+    		and education = #{education}
+    	</if>
+    	<if test="graduate != null and graduate != ''">
+    		and graduate = #{graduate}
+    	</if>
+    	<if test="specialty != null and specialty != ''">
+    		and specialty = #{specialty}
+    	</if>
+    	<if test="graduation != null and graduation != ''">
+    		and graduation = #{graduation}
+    	</if>
+    	<if test="status != null and status != ''">
+    		and status = #{status}
+    	</if>
+    </where>
   </select>
   
   <select id="userInfoTableAjaxPage"  parameterType="java.util.Map" resultMap="BaseResultMap">
@@ -43,6 +186,7 @@
     	</if>
     </where>
   </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user_info
     where id = #{id,jdbcType=INTEGER}
@@ -50,16 +194,16 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.ly.po.UserInfo" useGeneratedKeys="true">
     insert into user_info (name, sex, age, 
       id_car, birthday, pic_icon, 
-      tel, nations, height, 
-      weight, education, graduate, 
-      specialty, graduation, status
-      )
+      tel, e_mail, nations, 
+      height, weight, education, 
+      graduate, specialty, graduation, 
+      status)
     values (#{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
       #{idCar,jdbcType=VARCHAR}, #{birthday,jdbcType=VARCHAR}, #{picIcon,jdbcType=VARCHAR}, 
-      #{tel,jdbcType=VARCHAR}, #{nations,jdbcType=VARCHAR}, #{height,jdbcType=VARCHAR}, 
-      #{weight,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, #{graduate,jdbcType=VARCHAR}, 
-      #{specialty,jdbcType=VARCHAR}, #{graduation,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}
-      )
+      #{tel,jdbcType=VARCHAR}, #{eMail,jdbcType=VARCHAR}, #{nations,jdbcType=VARCHAR}, 
+      #{height,jdbcType=VARCHAR}, #{weight,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, 
+      #{graduate,jdbcType=VARCHAR}, #{specialty,jdbcType=VARCHAR}, #{graduation,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.ly.po.UserInfo" useGeneratedKeys="true">
     insert into user_info
@@ -84,6 +228,9 @@
       </if>
       <if test="tel != null">
         tel,
+      </if>
+      <if test="eMail != null">
+        e_mail,
       </if>
       <if test="nations != null">
         nations,
@@ -131,6 +278,9 @@
       </if>
       <if test="tel != null">
         #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="eMail != null">
+        #{eMail,jdbcType=VARCHAR},
       </if>
       <if test="nations != null">
         #{nations,jdbcType=VARCHAR},
@@ -182,6 +332,9 @@
       <if test="tel != null">
         tel = #{tel,jdbcType=VARCHAR},
       </if>
+      <if test="eMail != null">
+        e_mail = #{eMail,jdbcType=VARCHAR},
+      </if>
       <if test="nations != null">
         nations = #{nations,jdbcType=VARCHAR},
       </if>
@@ -218,6 +371,7 @@
       birthday = #{birthday,jdbcType=VARCHAR},
       pic_icon = #{picIcon,jdbcType=VARCHAR},
       tel = #{tel,jdbcType=VARCHAR},
+      e_mail = #{eMail,jdbcType=VARCHAR},
       nations = #{nations,jdbcType=VARCHAR},
       height = #{height,jdbcType=VARCHAR},
       weight = #{weight,jdbcType=VARCHAR},

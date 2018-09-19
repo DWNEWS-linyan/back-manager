@@ -1,11 +1,12 @@
 package com.ly.utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.beanutils.BeanMap;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -13,6 +14,8 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
 
+import com.ly.po.SysRole;
+import com.ly.po.SysTree;
 import com.ly.po.SysUser;
 
 /**
@@ -25,6 +28,8 @@ import com.ly.po.SysUser;
 public class Common {
 
 
+	private static Map<String, Object> mapg = null;
+	
 	/**
 	 * @Title: isWindows
 	 * @author: linyan
@@ -45,24 +50,52 @@ public class Common {
 	 * @Description: 得到 当前登录 用户信息    用户对应的  角色   和  权限
 	 * @return "user":"SysUser"   "roles":"List<SysRole>"   "prems":"List<SysTree>"
 	 */
+	@SuppressWarnings("unchecked")
 	public static Map<String, Object> getCurrentUser() {
-		Map<String, Object> map = new HashMap<String, Object>();
+//		if (mapg!=null) {
+//			return mapg;
+//		}
+		mapg = new HashMap<String, Object>();
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession();
     	if(session != null){
 			if(session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY)!=null){
 				PrincipalCollection principalCollection = (PrincipalCollection) session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
 				Object object = principalCollection.getPrimaryPrincipal();
-				BeanMap beanMap = new BeanMap(object);
-				while (beanMap.keyIterator().hasNext()) {
-					Object ke = beanMap.keyIterator().next();
-					Object val = beanMap.get(ke);
-					map.put(String.valueOf(ke), val);
+				Map<String, Object> map = (Map<String, Object>)object;
+				for (Map.Entry<String, Object> entry : map.entrySet()) {
+					mapg.put(entry.getKey(), entry.getValue());
 				}
-				return map;
+				return mapg;
 			}
 		}
     	return null;
+	}
+	
+	public static List<SysRole> getSysRoles(){
+		Map<String, Object> map = getCurrentUser();
+		if(map != null&&map.containsKey("roles")){
+			List<SysRole> list = new ArrayList<SysRole>();
+			List<?> list2 = (List<?>)map.get("roles");
+			for (Object object : list2) {
+				list.add((SysRole)object);
+			}
+			return list;
+		}
+		return null;
+	}
+	
+	public static List<SysTree> getSysTrees(){
+		Map<String, Object> map = getCurrentUser();
+		if(map != null&&map.containsKey("prems")){
+			List<SysTree> list = new ArrayList<SysTree>();
+			List<?> list2 = (List<?>)map.get("prems");
+			for (Object object : list2) {
+				list.add((SysTree)object);
+			}
+			return list;
+		}
+		return null;
 	}
 	
 	/**

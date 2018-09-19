@@ -2,6 +2,7 @@ package com.ly.service.sys;
 
 import java.util.Map;
 
+import com.ly.po.UserInfo;
 import com.ly.vo.AddOrEditUserInfoVo;
 
 /**
@@ -48,5 +49,15 @@ public interface IUserInfoService {
 	 * @return
 	*/
 	Map<String, Object> deleteUserInfo(Integer id);
+
+	/**
+	 * @Title: selectById
+	 * @author: linyan
+	 * @Description: 
+	 * @date 2018年1月11日 下午5:18:55
+	 * @param id
+	 * @return
+	*/
+	UserInfo selectById(Integer id);
 
 }

@@ -20,7 +20,7 @@ import com.ly.utils.EntityToString;
 public class Te {
 
 	
-	public static void main(String[] args) {
+	public static void masin(String[] args) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("name", "gas;ldkf");
 		map.put("ex", 45);
@@ -56,5 +56,13 @@ public class Te {
 		String entityToString = EntityToString.getString(test1,2);
 		System.out.println(entityToString);
 	}
+	
+	
+	
+	public static void main(String[] args) {
+		
+		
+	}
+	
 	
 }

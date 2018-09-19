@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ly.mapper.notice.SysNoticeFilesMapper">
+  <resultMap id="BaseResultMap" type="com.ly.po.SysNoticeFiles">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="notice_id" jdbcType="INTEGER" property="noticeId" />
+    <result column="notice_file" jdbcType="VARCHAR" property="noticeFile" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, notice_id, notice_file
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_notice_files
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_notice_files
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.ly.po.SysNoticeFiles" useGeneratedKeys="true">
+    insert into sys_notice_files (notice_id, notice_file)
+    values (#{noticeId,jdbcType=INTEGER}, #{noticeFile,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.ly.po.SysNoticeFiles" useGeneratedKeys="true">
+    insert into sys_notice_files
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="noticeId != null">
+        notice_id,
+      </if>
+      <if test="noticeFile != null">
+        notice_file,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="noticeId != null">
+        #{noticeId,jdbcType=INTEGER},
+      </if>
+      <if test="noticeFile != null">
+        #{noticeFile,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ly.po.SysNoticeFiles">
+    update sys_notice_files
+    <set>
+      <if test="noticeId != null">
+        notice_id = #{noticeId,jdbcType=INTEGER},
+      </if>
+      <if test="noticeFile != null">
+        notice_file = #{noticeFile,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ly.po.SysNoticeFiles">
+    update sys_notice_files
+    set notice_id = #{noticeId,jdbcType=INTEGER},
+      notice_file = #{noticeFile,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

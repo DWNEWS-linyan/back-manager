@@ -1,9 +1,11 @@
 package com.ly.service.sys;
 
+import java.util.List;
 import java.util.Map;
 
 import com.ly.common.LyPage;
 import com.ly.po.SysUser;
+import com.ly.po.UserInfo;
 
 /**
 * @ClassName: ISysUserService
@@ -62,5 +64,35 @@ public interface ISysUserService {
 	 * @return
 	*/
 	Map<String, Object> saveNewPass(String newPass, String tel);
+
+	/**
+	 * @Title: select2JSONData
+	 * @author: linyan
+	 * @Description: 
+	 * @date 2018年1月11日 上午10:43:32
+	 * @param p
+	 * @return
+	*/
+	List<UserInfo> select2JSONData(String p);
+
+	/**
+	 * @Title: saveSysUser
+	 * @author: linyan
+	 * @Description: 
+	 * @date 2018年1月11日 下午4:02:13
+	 * @param sysUser
+	 * @return
+	*/
+	Map<String, Object> saveSysUser(SysUser sysUser);
+
+	/**
+	 * @Title: selectByUserName
+	 * @author: linyan
+	 * @Description: 
+	 * @date 2018年1月11日 下午4:41:38
+	 * @param username
+	 * @return
+	*/
+	boolean selectByUserName(String username);
 	
 }

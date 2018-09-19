@@ -83,7 +83,6 @@ public class DefaultWebServiceRealm extends AuthorizingRealm {
 		}
 	    Session session = SecurityUtils.getSubject().getSession();
         session.setAttribute(MyProperties.get("SESSION_USER_KEY"), sysUser); 
-        
         HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
         request.getSession().setAttribute(MyProperties.get("SESSION_USER_KEY"), sysUser);
         

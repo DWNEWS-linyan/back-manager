@@ -89,7 +89,7 @@
 	<!-- Shiro的Web过滤器 -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
-		<property name="loginUrl" value="/index.jsp" />
+		<property name="loginUrl" value="/" />
 		<property name="unauthorizedUrl" value="/unauthorized" />
 		<!-- <property name="filters"> -->
 		<!-- <util:map> -->
@@ -99,17 +99,21 @@
 		<property name="filterChainDefinitions">
 			<value>
 				/index.jsp = anon
-				/login = anon
+<!-- 				/login = anon -->
 				/weixin/** = anon
+				/site/** = anon
+				/cmbc/** = anon
+				/clock/** = anon
 				/sys/** = anon
+				/theme/** = anon
 				/lyadmingsocket/** = anon
 				/lyadmingsocket = anon
-				/** = anon
+<!-- 				/** = anon -->
 				/main = authc
 				/logout = logout
 				/unauthorized = anon
 				/unauthenticated = anon
-<!-- 				/** = authc -->
+				/** = authc
 			</value>
 		</property>
 	</bean>

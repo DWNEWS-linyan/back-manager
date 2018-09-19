@@ -1,5 +1,6 @@
 package com.ly.service.sys.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,8 +13,10 @@ import com.ly.common.LyPage;
 import com.ly.common.LyPagePlugin;
 import com.ly.mapper.sys.SysUserMapper;
 import com.ly.mapper.sys.SysUserRoleMapper;
+import com.ly.mapper.sys.UserInfoMapper;
 import com.ly.po.SysUser;
 import com.ly.po.SysUserRole;
+import com.ly.po.UserInfo;
 import com.ly.service.sys.ISysUserService;
 
 /**
@@ -31,6 +34,9 @@ public class SysUserServiceImpl implements ISysUserService {
 	
 	@Autowired
 	private SysUserRoleMapper sysUserRoleMapper;
+	
+	@Autowired
+	private UserInfoMapper userInfoMapper;
 	
 	/* （非 Javadoc）
 	 * @see com.ly.service.sys.ISysUserService#selectPageSysUser(com.ly.common.LyPage)
@@ -155,6 +161,73 @@ public class SysUserServiceImpl implements ISysUserService {
 			e.printStackTrace();
 		}
 		return map;
+	}
+
+
+	/* （非 Javadoc）
+	 * @see com.ly.service.sys.ISysUserService#select2JSONData(java.lang.String)
+	 */
+	@Override
+	public List<UserInfo> select2JSONData(String p) {
+		List<UserInfo> list = new ArrayList<UserInfo>();
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			if (p!=null&&!p.equals("")) {
+				Integer.valueOf(p);
+				if (p.length()<3) {
+					map.put("age", p);
+				}else if (p.length() < 12) {
+					map.put("tel", p);
+				}
+			}
+		} catch (Exception e) {
+			if (p.length()>14) {
+				map.put("idcar", p);
+			}else if (p.length()<11&&p.length()>9) {
+				map.put("birthday", p);
+			}else{
+				map.put("name", p);
+			}
+		}
+		map.put("left", 1);
+		list = userInfoMapper.selectBySysUser(map);
+		return list;
+	}
+
+
+	/* （非 Javadoc）
+	 * @see com.ly.service.sys.ISysUserService#saveSysUser(com.ly.po.SysUser)
+	 */
+	@Override
+	public Map<String, Object> saveSysUser(SysUser sysUser) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			int id = sysUserMapper.insertSelective(sysUser);
+			if (id!=0) {
+				map.put("code", 0);
+			}else {
+				map.put("code", 1);
+				map.put("mes", "额，出了什么事情？");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("code", 1);
+			map.put("mes", "保存出现了不可预知的错误。");
+		}
+		return map;
+	}
+
+
+	/* （非 Javadoc）
+	 * @see com.ly.service.sys.ISysUserService#selectByUserName(java.lang.String)
+	 */
+	@Override
+	public boolean selectByUserName(String username) {
+		SysUser sysUser = sysUserMapper.selectSysUserByUserName(username);
+		if (sysUser!=null) {
+			return true ;
+		}
+		return false;
 	}
 
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ly.common.LyPage;
 import com.ly.po.SysUser;
+import com.ly.po.UserInfo;
 import com.ly.service.sys.ISysUserService;
 
 /**
@@ -111,6 +112,44 @@ public class SysUserController {
 			e.printStackTrace();
 		}
 		return map;
+	}
+	
+	@RequestMapping(value = "system/addSysUser" , produces = "application/json;charset=utf-8")
+	@ResponseBody
+	public Object addSysUser(HttpServletRequest request ,HttpServletResponse response){
+		Map<String, Object> map = new HashMap<String, Object>();
+		String name = ServletRequestUtils.getStringParameter(request, "name",null);
+		String pass = ServletRequestUtils.getStringParameter(request, "pass",null);
+		String userinfoId = ServletRequestUtils.getStringParameter(request, "userinfoid",null);
+		SysUser sysUser = new SysUser();
+		sysUser.setUserId(userinfoId);
+		sysUser.setUserName(name);
+		sysUser.setUserPass(pass);
+		map = iSysUserService.saveSysUser(sysUser);
+		return map;
+	}
+	
+	@RequestMapping(value = "system/select2JSONData" ,produces = "application/json;charset=utf-8")
+	@ResponseBody
+	public Object select2JSONData(String p , HttpServletResponse response ,HttpServletRequest request){
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			List<UserInfo> list = iSysUserService.select2JSONData(p);
+			map.put("code", 0);
+			map.put("mes","");
+			map.put("data", list);
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("code", 1);
+			map.put("mes", "服务器亚历山大啊，请您重新搜索，给您添麻烦了。");
+		}
+		return map;
+	}
+	
+	@RequestMapping(value ="system/remoteUserName" , produces = "application/json;charset=utf-8")
+	@ResponseBody
+	public boolean remoteUserName(String username , HttpServletRequest request ,HttpServletResponse response){
+		return iSysUserService.selectByUserName(username);
 	}
 	
 }

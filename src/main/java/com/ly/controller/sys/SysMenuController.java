@@ -48,14 +48,16 @@ public class SysMenuController {
 	@ResponseBody
 	public Object getMenu(HttpServletRequest request,HttpServletResponse response){
 		SysUser user = (SysUser)request.getSession().getAttribute(SESSION_USER_KEY);
-		
-		List<SysRole> list = sysRoleService.selectRoleByUserId(user.getId());
-		
-		List<SysTree> trees = sysTreeService.selectTreeByRoleIds(list);
-		
-		List<Map<String, Object>> banM = lvMenu(trees,0);
-		
-		return banM;
+		if (user!=null) {
+			List<SysRole> list = sysRoleService.selectRoleByUserId(user.getId());
+			
+			List<SysTree> trees = sysTreeService.selectTreeByRoleIds(list);
+			
+			List<Map<String, Object>> banM = lvMenu(trees,0);
+			
+			return banM;
+		}
+		return null;
 	}
 	
 	public List<Map<String, Object>> lvMenu(List<SysTree> trees,Integer parentId){

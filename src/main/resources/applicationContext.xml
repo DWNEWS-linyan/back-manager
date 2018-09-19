@@ -23,6 +23,7 @@
     <!-- 自动加载所有bean -->
 <!--     <context:component-scan base-package="com.ly" /> -->
 	<mvc:annotation-driven />
+	<task:annotation-driven/>
 
     <import resource="classpath*:spring-mybatis.xml"/>
     <import resource="classpath*:spring-shior.xml"/>

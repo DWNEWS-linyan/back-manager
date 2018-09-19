@@ -22,4 +22,13 @@ public interface SysRoleTreeMapper {
 	 * @param valueOf
 	*/
 	void deleteByRoleId(Integer roleid);
+
+	/**
+	 * @Title: deleteBySysTree
+	 * @author: linyan
+	 * @Description: 
+	 * @date 2018年1月17日 下午1:40:42
+	 * @param id
+	*/
+	void deleteBySysTree(Integer id);
 }

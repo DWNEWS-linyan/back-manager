@@ -36,7 +36,7 @@
 			<websocket:sockjs >
 			</websocket:sockjs>
 		</websocket:stomp-endpoint>
-		<websocket:simple-broker prefix="/topic,/queue"/>
+		<websocket:simple-broker prefix="/notepadstomp,/emailstomp,/noticestomp,/projectstomp"/>
 	</websocket:message-broker>
 
     <bean id="mappingJacksonHttpMessageConverter"
